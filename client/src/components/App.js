@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
+import '../styles/global.css';
+import Courses from './Courses';
+import Header from './Header';
 
 class App extends Component {
   constructor() {
@@ -30,7 +32,14 @@ class App extends Component {
   };
 
   render() {
-    return <div className="App">Here</div>;
+    return (
+      <div className="root">
+        <div>
+          <Header />
+          <Courses data={this.state.courses} />
+        </div>
+      </div>
+    );
   }
 }
 
