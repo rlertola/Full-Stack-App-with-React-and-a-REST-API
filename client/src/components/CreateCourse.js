@@ -1,44 +1,34 @@
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Work+Sans:400,500"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Cousine"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link href="../styles/global.css" rel="stylesheet" />
-    <title>Courses</title>
-  </head>
+import React, { Component } from 'react';
 
-  <body>
-    <div id="root">
+class CreateCourse extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      signedIn: false
+    };
+  }
+
+  render() {
+    return (
       <div>
-        <div class="header">
-          <div class="bounds">
-            <h1 class="header--logo">Courses</h1>
+        <div className="header">
+          <div className="bounds">
+            <h1 className="header--logo">Courses</h1>
             <nav>
-              <span>Welcome Joe Smith!</span
-              ><a class="signout" href="index.html">Sign Out</a>
+              <span>Welcome Joe Smith!</span>
+              <a className="signout" href="">
+                Sign Out
+              </a>
             </nav>
           </div>
         </div>
         <hr />
-        <div class="bounds course--detail">
+        <div className="bounds course--detail">
           <h1>Create Course</h1>
           <div>
             <div>
-              <h2 class="validation--errors--label">Validation errors</h2>
-              <div class="validation-errors">
+              <h2 className="validation--errors--label">Validation errors</h2>
+              <div className="validation-errors">
                 <ul>
                   <li>Please provide a value for "Title"</li>
                   <li>Please provide a value for "Description"</li>
@@ -46,15 +36,15 @@
               </div>
             </div>
             <form>
-              <div class="grid-66">
-                <div class="course--header">
-                  <h4 class="course--label">Course</h4>
+              <div className="grid-66">
+                <div className="course--header">
+                  <h4 className="course--label">Course</h4>
                   <div>
                     <input
                       id="title"
                       name="title"
                       type="text"
-                      class="input-title course--title--input"
+                      className="input-title course--title--input"
                       placeholder="Course title..."
                       value=""
                     />
@@ -62,51 +52,53 @@
 
                   <p>By Joe Smith</p>
                 </div>
-                <div class="course--description">
+                <div className="course--description">
                   <div>
                     <textarea
                       id="description"
                       name="description"
-                      class=""
+                      className=""
                       placeholder="Course description..."
-                    ></textarea>
+                    />
                   </div>
                 </div>
               </div>
-              <div class="grid-25 grid-right">
-                <div class="course--stats">
-                  <ul class="course--stats--list">
-                    <li class="course--stats--list--item">
+              <div className="grid-25 grid-right">
+                <div className="course--stats">
+                  <ul className="course--stats--list">
+                    <li className="course--stats--list--item">
                       <h4>Estimated Time</h4>
                       <div>
                         <input
                           id="estimatedTime"
                           name="estimatedTime"
                           type="text"
-                          class="course--time--input"
+                          className="course--time--input"
                           placeholder="Hours"
                           value=""
                         />
                       </div>
                     </li>
-                    <li class="course--stats--list--item">
+                    <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
                       <div>
                         <textarea
                           id="materialsNeeded"
                           name="materialsNeeded"
-                          class=""
+                          className=""
                           placeholder="List materials..."
-                        ></textarea>
+                        />
                       </div>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div class="grid-100 pad-bottom">
-                <button class="button" type="submit">Create Course</button
-                ><button
-                  class="button button-secondary"
+              <div className="grid-100 pad-bottom">
+                <button className="button" type="submit">
+                  Create Course
+                </button>
+                <button
+                  className="button button-secondary"
                   onclick="event.preventDefault(); location.href='index.html';"
                 >
                   Cancel
@@ -116,6 +108,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </body>
-</html>
+    );
+  }
+}
+
+export default CreateCourse;

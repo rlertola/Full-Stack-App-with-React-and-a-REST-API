@@ -1,38 +1,49 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import NewCourse from './NewCourse';
 import Course from './Course';
 
-// class Courses extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       courses: this.props.data
-//     };
-//   }
+class Courses extends Component {
+  constructor() {
+    super();
+    this.state = {
+      courses: []
+    };
+  }
 
-//   render() {
-//     return (
-//       <div>
-//         <hr />
-//         <div className="bounds">hello</div>
-//       </div>
-//     );
-//   }
-// }
+  getDataOnLoad = () => {
+    axios
+      .get(`http://localhost:5000/api/courses`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({
+          courses: response.data
+        });
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
 
-const Courses = props => {
-  const courses = props.data;
-  let titles;
+  componentDidMount() {
+    this.getDataOnLoad();
+  }
 
-  titles = courses.map(course => {
-    return <Course title={course.title} key={course._id} />;
-  });
+  render() {
+    const titles = this.state.courses.map(course => {
+      return <Course title={course.title} id={course._id} key={course._id} />;
+    });
 
-  return (
-    <div>
-      <hr />
-      <div className="bounds">{titles}</div>
-    </div>
-  );
-};
+    return (
+      <div>
+        <hr />
+        <div className="bounds">
+          {titles}
+          <NewCourse />
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Courses;
