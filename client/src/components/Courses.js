@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import NewCourse from './NewCourse';
+import NewCourseButton from './NewCourseButton';
 import Course from './Course';
 
 class Courses extends Component {
@@ -15,7 +15,6 @@ class Courses extends Component {
     axios
       .get(`http://localhost:5000/api/courses`)
       .then(response => {
-        console.log(response.data);
         this.setState({
           courses: response.data
         });
@@ -39,7 +38,7 @@ class Courses extends Component {
         <hr />
         <div className="bounds">
           {titles}
-          <NewCourse />
+          <NewCourseButton />
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ const Course = props => {
     <div className="grid-33">
       <NavLink
         className="course--module course--link"
-        component={<CourseDetail id={props.id} />}
+        component={<CourseDetail />}
         to={`/${props.id}`}
       >
         <h4 className="course--label">Course</h4>

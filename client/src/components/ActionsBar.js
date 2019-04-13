@@ -1,21 +1,28 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import UpdateCourse from './UpdateCourse';
 
-const ActionsBar = () => {
+// Part of CourseDetail.js.
+const ActionsBar = props => {
   return (
-    <div class="actions--bar">
-      <div class="bounds">
-        <div class="grid-100">
+    <div className="actions--bar">
+      <div className="bounds">
+        <div className="grid-100">
           <span>
-            <a class="button" href="">
+            <NavLink
+              className="button"
+              component={<UpdateCourse />}
+              to={`${props.id}/update`}
+            >
               Update Course
-            </a>
-            <a class="button" href="#">
+            </NavLink>
+            <NavLink className="button" to="#">
               Delete Course
-            </a>
+            </NavLink>
           </span>
-          <a class="button button-secondary" href="">
+          <NavLink className="button button-secondary" to="/">
             Return to List
-          </a>
+          </NavLink>
         </div>
       </div>
     </div>

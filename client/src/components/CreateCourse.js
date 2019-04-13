@@ -11,17 +11,6 @@ class CreateCourse extends Component {
   render() {
     return (
       <div>
-        <div className="header">
-          <div className="bounds">
-            <h1 className="header--logo">Courses</h1>
-            <nav>
-              <span>Welcome Joe Smith!</span>
-              <a className="signout" href="">
-                Sign Out
-              </a>
-            </nav>
-          </div>
-        </div>
         <hr />
         <div className="bounds course--detail">
           <h1>Create Course</h1>

@@ -1,12 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const NewCourse = () => {
   return (
     <div className="grid-33">
-      <a
-        className="course--module course--add--module"
-        href="create-course.html"
-      >
+      <NavLink to="/create" className="course--module course--add--module">
         <h3 className="course--add--title">
           <svg
             version="1.1"
@@ -20,7 +18,7 @@ const NewCourse = () => {
           </svg>
           New Course
         </h3>
-      </a>
+      </NavLink>
     </div>
   );
 };

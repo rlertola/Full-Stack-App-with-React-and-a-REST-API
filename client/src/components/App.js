@@ -6,6 +6,7 @@ import Courses from './Courses';
 import Header from './Header';
 import CreateCourse from './CreateCourse';
 import UpdateCourse from './UpdateCourse';
+import CourseDetail from './CourseDetail';
 
 class App extends Component {
   render() {
@@ -17,7 +18,8 @@ class App extends Component {
             <Switch>
               <Route exact path="/" render={() => <Courses />} />
               <Route exact path="/create" component={CreateCourse} />
-              <Route exact path="/update" component={UpdateCourse} />
+              <Route exact path="/:id" component={CourseDetail} />
+              <Route exact path="/:id/update" component={UpdateCourse} />
             </Switch>
           </div>
         </div>
