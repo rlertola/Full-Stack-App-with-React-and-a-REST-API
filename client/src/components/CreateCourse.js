@@ -1,12 +1,45 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import ValidationErrors from './ValidationErrors';
+import axios from 'axios';
 
 class CreateCourse extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signedIn: false
-    };
-  }
+  state = {
+    course: {
+      title: '',
+      description: '',
+      estimatedTime: '',
+      materialsNeeded: '',
+      user: ''
+    }
+    // add user
+  };
+
+  addNewCourse = () => {
+    axios
+      .post(`http://localhost:5000/api/courses`, {
+        title: this.state.course.title,
+        description: this.state.course.title,
+        estimatedTime: this.state.course.title,
+        materialsNeeded: this.state.course.title
+      })
+      // push history to courses page
+      .then(response => {
+        console.log('Response', response);
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
+
+  handleChange = e => {
+    console.log([e.currentTarget.name], e.currentTarget.value);
+    // this.setState({
+    //   course: {
+    //     [e.currentTarget.name]: e.currentTarget.value
+    //   }
+    // });
+  };
 
   render() {
     return (
@@ -15,16 +48,8 @@ class CreateCourse extends Component {
         <div className="bounds course--detail">
           <h1>Create Course</h1>
           <div>
-            <div>
-              <h2 className="validation--errors--label">Validation errors</h2>
-              <div className="validation-errors">
-                <ul>
-                  <li>Please provide a value for "Title"</li>
-                  <li>Please provide a value for "Description"</li>
-                </ul>
-              </div>
-            </div>
-            <form>
+            <ValidationErrors />
+            <form onSubmit={this.addNewCourse}>
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
@@ -35,7 +60,8 @@ class CreateCourse extends Component {
                       type="text"
                       className="input-title course--title--input"
                       placeholder="Course title..."
-                      value=""
+                      onChange={this.handleChange}
+                      value={this.state.course.title}
                     />
                   </div>
 
@@ -48,6 +74,8 @@ class CreateCourse extends Component {
                       name="description"
                       className=""
                       placeholder="Course description..."
+                      onChange={this.handleChange}
+                      value={this.state.course.description}
                     />
                   </div>
                 </div>
@@ -64,7 +92,8 @@ class CreateCourse extends Component {
                           type="text"
                           className="course--time--input"
                           placeholder="Hours"
-                          value=""
+                          onChange={this.handleChange}
+                          value={this.state.course.estimatedTime}
                         />
                       </div>
                     </li>
@@ -76,6 +105,8 @@ class CreateCourse extends Component {
                           name="materialsNeeded"
                           className=""
                           placeholder="List materials..."
+                          onChange={this.handleChange}
+                          value={this.state.course.materialsNeeded}
                         />
                       </div>
                     </li>
@@ -86,12 +117,10 @@ class CreateCourse extends Component {
                 <button className="button" type="submit">
                   Create Course
                 </button>
-                <button
-                  className="button button-secondary"
-                  onclick="event.preventDefault(); location.href='index.html';"
-                >
+                <NavLink to={'/'} className="button button-secondary">
+                  {' '}
                   Cancel
-                </button>
+                </NavLink>
               </div>
             </form>
           </div>

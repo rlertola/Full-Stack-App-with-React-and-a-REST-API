@@ -4,11 +4,12 @@ import NewCourseButton from './NewCourseButton';
 import Course from './Course';
 
 class Courses extends Component {
-  constructor() {
-    super();
-    this.state = {
-      courses: []
-    };
+  state = {
+    courses: {}
+  };
+
+  componentDidMount() {
+    this.getDataOnLoad();
   }
 
   getDataOnLoad = () => {
@@ -24,21 +25,41 @@ class Courses extends Component {
       });
   };
 
-  componentDidMount() {
-    this.getDataOnLoad();
-  }
+  addToCourses = (course, id) => {
+    axios
+      .post(`http://localhost:5000/api/courses`)
+      .then(response => {
+        this.setState({
+          courses: response.data
+        });
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
+
+  goToCreateCourse = e => {
+    e.preventDefault();
+    console.log('heys');
+    this.props.history.push('/create');
+  };
 
   render() {
-    const titles = this.state.courses.map(course => {
-      return <Course title={course.title} id={course._id} key={course._id} />;
-    });
-
     return (
       <div>
         <hr />
         <div className="bounds">
-          {titles}
-          <NewCourseButton />
+          {Object.keys(this.state.courses).map(key => {
+            return (
+              <Course
+                title={this.state.courses[key].title}
+                key={key}
+                index={key}
+                id={this.state.courses[key]._id}
+              />
+            );
+          })}
+          <NewCourseButton addToCourses={this.addToCourses} />
         </div>
       </div>
     );

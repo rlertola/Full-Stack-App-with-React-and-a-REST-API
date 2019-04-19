@@ -3,24 +3,26 @@ import axios from 'axios';
 import ActionsBar from './ActionsBar';
 
 class CourseDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.match.url,
-      title: '',
-      description: '',
-      estimatedTime: '',
-      materialsNeeded: '',
-      name: ''
-    };
+  state = {
+    course: {},
+    id: this.props.match.params.id,
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    name: ''
+  };
+
+  componentDidMount() {
+    this.getCourse();
   }
 
-  getDataOnLoad = () => {
+  getCourse = () => {
     axios
-      .get(`http://localhost:5000/api/courses${this.state.id}`)
+      .get(`http://localhost:5000/api/courses/${this.state.id}`)
       .then(response => {
-        console.log('response', response.data);
         this.setState({
+          course: response.data,
           title: response.data.title,
           description: response.data.description,
           estimatedTime: response.data.estimatedTime,
@@ -33,14 +35,27 @@ class CourseDetail extends Component {
       });
   };
 
-  componentDidMount() {
-    this.getDataOnLoad();
-  }
+  updateCourse = (updatedCourse, id) => {
+    axios
+      .put(`http://localhost:5000/api/courses/${id}`)
+      .then(response => {
+        this.setState({
+          courses: response.data
+        });
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
 
   render() {
     return (
       <div>
-        <ActionsBar id={this.state.id} />
+        <ActionsBar
+          id={this.state.id}
+          course={this.state.course}
+          updateCourse={this.updateCourse}
+        />
         <div className="bounds course--detail">
           <div className="grid-66">
             <div className="course--header">
