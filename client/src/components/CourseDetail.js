@@ -35,27 +35,10 @@ class CourseDetail extends Component {
       });
   };
 
-  updateCourse = (updatedCourse, id) => {
-    axios
-      .put(`http://localhost:5000/api/courses/${id}`)
-      .then(response => {
-        this.setState({
-          courses: response.data
-        });
-      })
-      .catch(err => {
-        console.log('Error fetching data', err);
-      });
-  };
-
   render() {
     return (
       <div>
-        <ActionsBar
-          id={this.state.id}
-          course={this.state.course}
-          updateCourse={this.updateCourse}
-        />
+        <ActionsBar id={this.state.id} course={this.state.course} />
         <div className="bounds course--detail">
           <div className="grid-66">
             <div className="course--header">

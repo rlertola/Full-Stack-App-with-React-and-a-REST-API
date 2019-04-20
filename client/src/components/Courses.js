@@ -25,25 +25,6 @@ class Courses extends Component {
       });
   };
 
-  addToCourses = (course, id) => {
-    axios
-      .post(`http://localhost:5000/api/courses`)
-      .then(response => {
-        this.setState({
-          courses: response.data
-        });
-      })
-      .catch(err => {
-        console.log('Error fetching data', err);
-      });
-  };
-
-  goToCreateCourse = e => {
-    e.preventDefault();
-    console.log('heys');
-    this.props.history.push('/create');
-  };
-
   render() {
     return (
       <div>

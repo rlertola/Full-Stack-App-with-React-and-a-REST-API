@@ -1,20 +1,38 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 class UserSignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signedIn: false
-    };
-  }
+  state = {};
+
+  signUp = e => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:5000/api/users`)
+      .then(response => {
+        this.setState({
+          courses: response.data
+        });
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
+
+  handleChange = e => {
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    });
+  };
 
   render() {
+    console.log(this.state);
     return (
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
           <div>
-            <form>
+            <form onSubmit={this.signUp}>
               <div>
                 <input
                   id="firstName"
@@ -22,7 +40,8 @@ class UserSignUp extends Component {
                   type="text"
                   className=""
                   placeholder="First Name"
-                  value=""
+                  onChange={this.handleChange}
+                  value={this.state.firstName}
                 />
               </div>
               <div>
@@ -32,7 +51,8 @@ class UserSignUp extends Component {
                   type="text"
                   className=""
                   placeholder="Last Name"
-                  value=""
+                  onChange={this.handleChange}
+                  value={this.state.lastName}
                 />
               </div>
               <div>
@@ -42,7 +62,8 @@ class UserSignUp extends Component {
                   type="text"
                   className=""
                   placeholder="Email Address"
-                  value=""
+                  onChange={this.handleChange}
+                  value={this.state.emailAddress}
                 />
               </div>
               <div>
@@ -52,7 +73,8 @@ class UserSignUp extends Component {
                   type="password"
                   className=""
                   placeholder="Password"
-                  value=""
+                  onChange={this.handleChange}
+                  value={this.state.password}
                 />
               </div>
               <div>
@@ -62,7 +84,8 @@ class UserSignUp extends Component {
                   type="password"
                   className=""
                   placeholder="Confirm Password"
-                  value=""
+                  onChange={this.handleChange}
+                  value={this.state.confirmPassword}
                 />
               </div>
 
@@ -70,12 +93,9 @@ class UserSignUp extends Component {
                 <button className="button" type="submit">
                   Sign Up
                 </button>
-                <button
-                  className="button button-secondary"
-                  onclick="event.preventDefault(); location.href='index.html';"
-                >
+                <NavLink className="button button-secondary" to="/">
                   Cancel
-                </button>
+                </NavLink>
               </div>
             </form>
           </div>

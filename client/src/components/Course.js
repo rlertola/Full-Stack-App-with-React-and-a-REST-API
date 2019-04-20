@@ -9,7 +9,7 @@ class Course extends Component {
         <NavLink
           className="course--module course--link"
           component={<CourseDetail index={this.props.index} />}
-          to={`/${this.props.id}`}
+          to={`courses/${this.props.id}`}
         >
           <h4 className="course--label">Course</h4>
           <h3 className="course--title">{this.props.title}</h3>

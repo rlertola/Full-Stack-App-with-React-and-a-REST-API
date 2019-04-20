@@ -1,25 +1,76 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 class UpdateCourse extends Component {
-  // Put onSubmit on the update course button and make function that gets the value from the inputs and updates them.
+  state = {
+    course: {},
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    user: '',
+    name: ''
 
-  // handleChange = e => {
-  //   const updatedCourse = {
-  //     ...this.props.course,
-  //     [e.currentTarget.name]: e.currentTarget.value
-  //   };
-  //   this.props.updateCourse(updatedCourse, this.props.id);
-  // };
+    // add user
+  };
+
+  componentDidMount() {
+    this.getCourse();
+  }
+
+  getCourse = () => {
+    axios
+      .get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
+      .then(response => {
+        this.setState({
+          course: response.data,
+          title: response.data.title,
+          description: response.data.description,
+          estimatedTime: response.data.estimatedTime,
+          materialsNeeded: response.data.materialsNeeded,
+          name: `${response.data.user.firstName} ${response.data.user.lastName}`
+        });
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
+
+  updateCourse = e => {
+    e.preventDefault();
+    console.log('called');
+    axios
+      .put(`http://localhost:5000/api/courses/${this.props.match.params.id}`, {
+        title: this.state.title,
+        description: this.state.title,
+        estimatedTime: this.state.title,
+        materialsNeeded: this.state.title
+      })
+      // push history to courses page
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
+
+  handleChange = e => {
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    });
+  };
 
   render() {
+    console.log(this.state.title);
     return (
       <div>
         <hr />
         <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
-            <form onSubmit={this.props.updateCourse}>
+            <form onSubmit={this.updateCourse}>
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
@@ -30,12 +81,12 @@ class UpdateCourse extends Component {
                       name="title"
                       type="text"
                       placeholder="Course title..."
-                      // value={this.props.course.title}
-                      onChange={this.props.handleChange}
+                      onChange={this.handleChange}
+                      value={this.state.title}
                     />
                   </div>
 
-                  <p>By Joe Smith</p>
+                  <p>By {this.state.name}</p>
                 </div>
                 <div className="course--description">
                   <div>
@@ -44,10 +95,9 @@ class UpdateCourse extends Component {
                       name="description"
                       className=""
                       placeholder="Course description..."
-                      onChange={this.props.handleChange}
-                    >
-                      High-end furniture projects are great to dream about.
-                    </textarea>
+                      onChange={this.handleChange}
+                      value={this.state.description || ''}
+                    />
                   </div>
                 </div>
               </div>
@@ -63,8 +113,8 @@ class UpdateCourse extends Component {
                           type="text"
                           className="course--time--input"
                           placeholder="Hours"
-                          value="14 hours"
-                          onChange={this.props.handleChange}
+                          onChange={this.handleChange}
+                          value={this.state.estimatedTime || ''}
                         />
                       </div>
                     </li>
@@ -76,13 +126,9 @@ class UpdateCourse extends Component {
                           name="materialsNeeded"
                           className=""
                           placeholder="List materials..."
-                          onChange={this.props.handleChange}
-                        >
-                          * 1/2 x 3/4 inch parting strip * 1 x 2 common pine * 1
-                          x 4 common pine * 1 x 10 common pine * 1/4 inch thick
-                          lauan plywood * Finishing Nails * Sandpaper * Wood
-                          Glue * Wood Filler * Minwax Oil Based Polyurethane
-                        </textarea>
+                          onChange={this.handleChange}
+                          value={this.state.materialsNeeded || ''}
+                        />
                       </div>
                     </li>
                   </ul>

@@ -5,27 +5,28 @@ import axios from 'axios';
 
 class CreateCourse extends Component {
   state = {
-    course: {
-      title: '',
-      description: '',
-      estimatedTime: '',
-      materialsNeeded: '',
-      user: ''
-    }
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    user: ''
+
     // add user
   };
 
-  addNewCourse = () => {
+  createCourse = e => {
+    e.preventDefault();
+    console.log('called');
     axios
       .post(`http://localhost:5000/api/courses`, {
-        title: this.state.course.title,
-        description: this.state.course.title,
-        estimatedTime: this.state.course.title,
-        materialsNeeded: this.state.course.title
+        title: this.state.title,
+        description: this.state.title,
+        estimatedTime: this.state.title,
+        materialsNeeded: this.state.title
       })
       // push history to courses page
       .then(response => {
-        console.log('Response', response);
+        console.log(response);
       })
       .catch(err => {
         console.log('Error fetching data', err);
@@ -33,12 +34,9 @@ class CreateCourse extends Component {
   };
 
   handleChange = e => {
-    console.log([e.currentTarget.name], e.currentTarget.value);
-    // this.setState({
-    //   course: {
-    //     [e.currentTarget.name]: e.currentTarget.value
-    //   }
-    // });
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    });
   };
 
   render() {
@@ -49,7 +47,7 @@ class CreateCourse extends Component {
           <h1>Create Course</h1>
           <div>
             <ValidationErrors />
-            <form onSubmit={this.addNewCourse}>
+            <form onSubmit={this.createCourse}>
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
@@ -61,7 +59,7 @@ class CreateCourse extends Component {
                       className="input-title course--title--input"
                       placeholder="Course title..."
                       onChange={this.handleChange}
-                      value={this.state.course.title}
+                      value={this.state.title}
                     />
                   </div>
 
@@ -75,7 +73,7 @@ class CreateCourse extends Component {
                       className=""
                       placeholder="Course description..."
                       onChange={this.handleChange}
-                      value={this.state.course.description}
+                      value={this.state.description}
                     />
                   </div>
                 </div>
@@ -93,7 +91,7 @@ class CreateCourse extends Component {
                           className="course--time--input"
                           placeholder="Hours"
                           onChange={this.handleChange}
-                          value={this.state.course.estimatedTime}
+                          value={this.state.estimatedTime}
                         />
                       </div>
                     </li>
@@ -106,7 +104,7 @@ class CreateCourse extends Component {
                           className=""
                           placeholder="List materials..."
                           onChange={this.handleChange}
-                          value={this.state.course.materialsNeeded}
+                          value={this.state.materialsNeeded}
                         />
                       </div>
                     </li>

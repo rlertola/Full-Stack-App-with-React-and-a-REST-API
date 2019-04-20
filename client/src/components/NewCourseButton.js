@@ -5,7 +5,10 @@ class NewCourseButton extends Component {
   render() {
     return (
       <div className="grid-33">
-        <NavLink className="course--module course--add--module" to="/create">
+        <NavLink
+          className="course--module course--add--module"
+          to="courses/create"
+        >
           <h3 className="course--add--title">
             <svg
               version="1.1"

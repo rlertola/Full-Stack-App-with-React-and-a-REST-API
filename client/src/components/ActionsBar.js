@@ -12,11 +12,7 @@ class ActionsBar extends Component {
             <span>
               <NavLink
                 component={
-                  <UpdateCourse
-                    course={this.props.course}
-                    updateCourse={this.props.updateCourse}
-                    id={this.props.id}
-                  />
+                  <UpdateCourse course={this.props.course} id={this.props.id} />
                 }
                 to={`${this.props.id}/update`}
                 className="button"
