@@ -42,7 +42,10 @@ class AuthProvider extends Component {
 
   signOut = () => {
     this.setState({
-      isAuth: false
+      isAuth: false,
+      name: null,
+      emailAddress: null,
+      password: null
     });
   };
 
@@ -51,6 +54,7 @@ class AuthProvider extends Component {
     return (
       <AuthContext.Provider
         value={{
+          state: this.state,
           isAuth: this.state.isAuth,
           signIn: this.signIn,
           signOut: this.signOut,

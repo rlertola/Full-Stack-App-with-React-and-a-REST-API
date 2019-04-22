@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import ValidationErrors from './ValidationErrors';
 import axios from 'axios';
+import { withAppContext } from './withAppContext';
 
 class CreateCourse extends Component {
   state = {
@@ -9,24 +10,53 @@ class CreateCourse extends Component {
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
-    user: ''
-
-    // add user
+    user: {
+      _id: this.props.context.state._id,
+      firstName: this.props.context.state.firstName,
+      lastName: this.props.context.state.lastName,
+      emailAddress: this.props.context.state.emailAddress,
+      password: this.props.context.state.password
+    }
   };
+
+  componentDidMount() {
+    console.log(this.props);
+  }
 
   createCourse = e => {
     e.preventDefault();
-    console.log('called');
     axios
-      .post(`http://localhost:5000/api/courses`, {
-        title: this.state.title,
-        description: this.state.title,
-        estimatedTime: this.state.title,
-        materialsNeeded: this.state.title
-      })
+      .post(
+        `http://localhost:5000/api/courses`,
+        {
+          // user: {
+          //   _id: this.state.user._id,
+          //   firstName: this.state.user.firstName,
+          //   lastName: this.state.user.lastName
+          // },
+
+          title: this.state.title,
+          description: this.state.description,
+          estimatedTime: this.state.estimatedTime,
+          materialsNeeded: this.state.materialsNeeded
+          // user: {
+          //   _id: this.props.context.state._id
+          //   // firstName: this.props.context.state.firstName,
+          //   // lastName: this.props.context.state.lastName
+          //   // emailAddress: this.props.context.state.emailAddress,
+          //   // password: this.props.context.state.password
+          // }
+        },
+        {
+          auth: {
+            username: this.state.user.emailAddress,
+            password: this.state.user.password
+          }
+        }
+      )
       // push history to courses page
       .then(response => {
-        console.log(response);
+        this.props.history.push('/');
       })
       .catch(err => {
         console.log('Error fetching data', err);
@@ -128,4 +158,5 @@ class CreateCourse extends Component {
   }
 }
 
-export default CreateCourse;
+export default withAppContext(CreateCourse);
+// export default CreateCourse;

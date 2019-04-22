@@ -22,12 +22,12 @@ class App extends Component {
               <Header />
               <Switch>
                 <Route exact path="/" component={Courses} />
-                <Route exact path="/courses/:id" component={CourseDetail} />
                 <PrivateRoute
                   exact
                   path="/courses/create"
                   component={CreateCourse}
                 />
+                <Route exact path="/courses/:id" component={CourseDetail} />
                 <PrivateRoute
                   exact
                   path="/courses/:id/update"

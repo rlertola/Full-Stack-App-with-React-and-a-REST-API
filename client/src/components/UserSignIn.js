@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { AuthConsumer } from './AuthContext';
 
 class UserSignIn extends Component {
   render() {
     return (
       <AuthConsumer>
-        {({ isAuth, handleChange, signIn, signOut }) =>
+        {({ isAuth, handleChange, signIn }) =>
           isAuth ? (
             <Redirect to="/" />
           ) : (

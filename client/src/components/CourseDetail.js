@@ -21,12 +21,14 @@ class CourseDetail extends Component {
     axios
       .get(`http://localhost:5000/api/courses/${this.state.id}`)
       .then(response => {
+        console.log(response.data);
         this.setState({
           course: response.data,
           title: response.data.title,
           description: response.data.description,
           estimatedTime: response.data.estimatedTime,
           materialsNeeded: response.data.materialsNeeded,
+
           name: `${response.data.user.firstName} ${response.data.user.lastName}`
         });
       })
