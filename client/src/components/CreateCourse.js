@@ -6,26 +6,22 @@ import { withAppContext } from './withAppContext';
 
 class CreateCourse extends Component {
   state = {
+    user: this.props.context.state._id,
     title: '',
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
-
-    user: {
-      // _id: ,
-      emailAddress: this.props.context.state.emailAddress,
-      password: this.props.context.state.password
-    }
+    emailAddress: this.props.context.state.emailAddress,
+    password: this.props.context.state.password
   };
 
   createCourse = e => {
     e.preventDefault();
-    console.log(this.state);
     axios
       .post(
         `http://localhost:5000/api/courses`,
         {
-          // user:
+          user: this.state.user,
           title: this.state.title,
           description: this.state.description,
           estimatedTime: this.state.estimatedTime,
@@ -33,12 +29,11 @@ class CreateCourse extends Component {
         },
         {
           auth: {
-            username: this.state.user.emailAddress,
-            password: this.state.user.password
+            username: this.state.emailAddress,
+            password: this.state.password
           }
         }
       )
-      // push history to courses page
       .then(response => {
         this.props.history.push('/');
       })
@@ -143,4 +138,3 @@ class CreateCourse extends Component {
 }
 
 export default withAppContext(CreateCourse);
-// export default CreateCourse;

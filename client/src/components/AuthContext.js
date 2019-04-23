@@ -6,6 +6,7 @@ const AuthContext = React.createContext();
 class AuthProvider extends Component {
   state = {
     isAuth: false,
+    _id: '',
     name: '',
     emailAddress: '',
     password: ''
@@ -21,9 +22,9 @@ class AuthProvider extends Component {
         }
       })
       .then(response => {
-        console.log(response.data);
         this.setState({
           isAuth: true,
+          _id: response.data.id,
           emailAddress: this.state.emailAddress,
           password: this.state.password,
           name: response.data.name
@@ -54,6 +55,7 @@ class AuthProvider extends Component {
     return (
       <AuthContext.Provider
         value={{
+          id: this.state._id,
           state: this.state,
           isAuth: this.state.isAuth,
           signIn: this.signIn,

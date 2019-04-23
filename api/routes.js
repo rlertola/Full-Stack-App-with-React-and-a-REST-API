@@ -69,6 +69,7 @@ router.param('courseID', (req, res, next, id) => {
 router.get('/users', authenticateUser, (req, res, next) => {
   const user = req.currentUser;
   res.json({
+    id: user._id,
     name: `${user.firstName} ${user.lastName}`,
     username: user.emailAddress
   });
