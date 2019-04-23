@@ -10,42 +10,26 @@ class CreateCourse extends Component {
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
+
     user: {
-      _id: this.props.context.state._id,
-      firstName: this.props.context.state.firstName,
-      lastName: this.props.context.state.lastName,
+      // _id: ,
       emailAddress: this.props.context.state.emailAddress,
       password: this.props.context.state.password
     }
   };
 
-  componentDidMount() {
-    console.log(this.props);
-  }
-
   createCourse = e => {
     e.preventDefault();
+    console.log(this.state);
     axios
       .post(
         `http://localhost:5000/api/courses`,
         {
-          // user: {
-          //   _id: this.state.user._id,
-          //   firstName: this.state.user.firstName,
-          //   lastName: this.state.user.lastName
-          // },
-
+          // user:
           title: this.state.title,
           description: this.state.description,
           estimatedTime: this.state.estimatedTime,
           materialsNeeded: this.state.materialsNeeded
-          // user: {
-          //   _id: this.props.context.state._id
-          //   // firstName: this.props.context.state.firstName,
-          //   // lastName: this.props.context.state.lastName
-          //   // emailAddress: this.props.context.state.emailAddress,
-          //   // password: this.props.context.state.password
-          // }
         },
         {
           auth: {
@@ -93,7 +77,7 @@ class CreateCourse extends Component {
                     />
                   </div>
 
-                  <p>By Joe Smith</p>
+                  <p />
                 </div>
                 <div className="course--description">
                   <div>

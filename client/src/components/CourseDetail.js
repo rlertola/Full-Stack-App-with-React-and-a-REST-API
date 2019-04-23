@@ -10,6 +10,7 @@ class CourseDetail extends Component {
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
+    user: '',
     name: ''
   };
 
@@ -27,9 +28,8 @@ class CourseDetail extends Component {
           title: response.data.title,
           description: response.data.description,
           estimatedTime: response.data.estimatedTime,
-          materialsNeeded: response.data.materialsNeeded,
-
-          name: `${response.data.user.firstName} ${response.data.user.lastName}`
+          materialsNeeded: response.data.materialsNeeded
+          // name: `${response.data.user.firstName} ${response.data.user.lastName}`
         });
       })
       .catch(err => {

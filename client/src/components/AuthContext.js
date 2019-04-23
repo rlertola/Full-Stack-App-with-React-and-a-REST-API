@@ -21,7 +21,7 @@ class AuthProvider extends Component {
         }
       })
       .then(response => {
-        console.log(response);
+        console.log(response.data);
         this.setState({
           isAuth: true,
           emailAddress: this.state.emailAddress,

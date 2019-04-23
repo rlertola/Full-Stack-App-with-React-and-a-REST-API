@@ -26,6 +26,7 @@ class Courses extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <hr />
@@ -40,7 +41,7 @@ class Courses extends Component {
               />
             );
           })}
-          <NewCourseButton addToCourses={this.addToCourses} />
+          <NewCourseButton />
         </div>
       </div>
     );
