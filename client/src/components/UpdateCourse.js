@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { withAppContext } from './withAppContext';
 
 class UpdateCourse extends Component {
   state = {
     course: {},
+    courseId: this.props.match.params.id,
     title: '',
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
-    user: '',
+    user: this.props.context.state._id,
+    emailAddress: this.props.context.state.emailAddress,
+    password: this.props.context.state.password,
     name: ''
-
-    // add user
   };
 
   componentDidMount() {
@@ -21,7 +23,7 @@ class UpdateCourse extends Component {
 
   getCourse = () => {
     axios
-      .get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
+      .get(`http://localhost:5000/api/courses/${this.state.courseId}`)
       .then(response => {
         this.setState({
           course: response.data,
@@ -39,17 +41,26 @@ class UpdateCourse extends Component {
 
   updateCourse = e => {
     e.preventDefault();
-    console.log('called');
     axios
-      .put(`http://localhost:5000/api/courses/${this.props.match.params.id}`, {
-        title: this.state.title,
-        description: this.state.title,
-        estimatedTime: this.state.title,
-        materialsNeeded: this.state.title
-      })
+      .put(
+        `http://localhost:5000/api/courses/${this.props.match.params.id}`,
+        {
+          user: this.state.user,
+          title: this.state.title,
+          description: this.state.description,
+          estimatedTime: this.state.estimatedTime,
+          materialsNeeded: this.state.materialsNeeded
+        },
+        {
+          auth: {
+            username: this.state.emailAddress,
+            password: this.state.password
+          }
+        }
+      )
       // push history to courses page
       .then(response => {
-        console.log(response);
+        this.props.history.push(`/courses/${this.state.courseId}`);
       })
       .catch(err => {
         console.log('Error fetching data', err);
@@ -63,7 +74,7 @@ class UpdateCourse extends Component {
   };
 
   render() {
-    console.log(this.state.title);
+    console.log(this.state);
     return (
       <div>
         <hr />
@@ -151,4 +162,4 @@ class UpdateCourse extends Component {
   }
 }
 
-export default UpdateCourse;
+export default withAppContext(UpdateCourse);

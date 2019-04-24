@@ -39,7 +39,11 @@ class CourseDetail extends Component {
   render() {
     return (
       <div>
-        <ActionsBar id={this.state.id} course={this.state.course} />
+        <ActionsBar
+          id={this.state.id}
+          course={this.state.course}
+          withRouter={this.props}
+        />
         <div className="bounds course--detail">
           <div className="grid-66">
             <div className="course--header">

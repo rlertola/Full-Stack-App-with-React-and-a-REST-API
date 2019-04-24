@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { AuthConsumer } from './AuthContext';
+import { withAppContext } from './withAppContext';
 
 class UserSignUp extends Component {
-  state = {};
+  state = {
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    password: '',
+    confirmPassword: '',
+    isAuth: false,
+    _id: '',
+    name: ''
+  };
 
   signUp = e => {
     e.preventDefault();
     axios
-      .post(`http://localhost:5000/api/users`)
+      .post(`http://localhost:5000/api/users`, {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        emailAddress: this.state.emailAddress,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword
+      })
       .then(response => {
-        this.setState({
-          courses: response.data
-        });
+        this.signIn();
       })
       .catch(err => {
         console.log('Error fetching data', err);
@@ -41,7 +56,6 @@ class UserSignUp extends Component {
                   className=""
                   placeholder="First Name"
                   onChange={this.handleChange}
-                  value={this.state.firstName}
                 />
               </div>
               <div>
@@ -52,7 +66,6 @@ class UserSignUp extends Component {
                   className=""
                   placeholder="Last Name"
                   onChange={this.handleChange}
-                  value={this.state.lastName}
                 />
               </div>
               <div>
@@ -63,7 +76,6 @@ class UserSignUp extends Component {
                   className=""
                   placeholder="Email Address"
                   onChange={this.handleChange}
-                  value={this.state.emailAddress}
                 />
               </div>
               <div>
@@ -74,7 +86,6 @@ class UserSignUp extends Component {
                   className=""
                   placeholder="Password"
                   onChange={this.handleChange}
-                  value={this.state.password}
                 />
               </div>
               <div>
@@ -85,7 +96,6 @@ class UserSignUp extends Component {
                   className=""
                   placeholder="Confirm Password"
                   onChange={this.handleChange}
-                  value={this.state.confirmPassword}
                 />
               </div>
 
@@ -110,4 +120,4 @@ class UserSignUp extends Component {
   }
 }
 
-export default UserSignUp;
+export default withAppContext(UserSignUp);

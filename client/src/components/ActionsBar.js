@@ -2,8 +2,33 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import UpdateCourse from './UpdateCourse';
 import { AuthConsumer } from './AuthContext';
+import axios from 'axios';
+import { withAppContext } from './withAppContext';
 
 class ActionsBar extends Component {
+  deleteCourse = e => {
+    e.preventDefault();
+    axios
+      .delete(
+        `http://localhost:5000/api/courses/${this.props.id}`,
+        {
+          auth: {
+            username: this.props.context.state.emailAddress,
+            password: this.props.context.state.password
+          }
+        },
+        {
+          user: this.props.context.id
+        }
+      )
+      .then(response => {
+        this.props.withRouter.history.push('/');
+      })
+      .catch(err => {
+        console.log('Error deleting data', err);
+      });
+  };
+
   render() {
     return (
       <AuthConsumer>
@@ -25,9 +50,9 @@ class ActionsBar extends Component {
                     >
                       Update Course
                     </NavLink>
-                    <NavLink className="button" to="#">
+                    <button className="button" onClick={this.deleteCourse}>
                       Delete Course
-                    </NavLink>
+                    </button>
                   </span>
                 ) : null}
                 <NavLink className="button button-secondary" to="/">
@@ -42,4 +67,4 @@ class ActionsBar extends Component {
   }
 }
 
-export default ActionsBar;
+export default withAppContext(ActionsBar);
