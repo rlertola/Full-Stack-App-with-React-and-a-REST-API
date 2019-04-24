@@ -8,12 +8,15 @@ class AuthProvider extends Component {
     isAuth: false,
     _id: '',
     name: '',
+    firstName: '',
+    lastName: '',
     emailAddress: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   };
 
   signIn = e => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     axios
       .get(`http://localhost:5000/api/users`, {
         auth: {
@@ -29,6 +32,25 @@ class AuthProvider extends Component {
           password: this.state.password,
           name: response.data.name
         });
+      })
+      .catch(err => {
+        console.log('Error fetching data', err);
+      });
+  };
+
+  signUp = e => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:5000/api/users`, {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        emailAddress: this.state.emailAddress,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword
+      })
+      .then(response => {
+        console.log('signedup');
+        this.signIn();
       })
       .catch(err => {
         console.log('Error fetching data', err);
@@ -59,6 +81,7 @@ class AuthProvider extends Component {
           state: this.state,
           isAuth: this.state.isAuth,
           signIn: this.signIn,
+          signUp: this.signUp,
           signOut: this.signOut,
           name: this.state.name,
           handleChange: this.handleChange
