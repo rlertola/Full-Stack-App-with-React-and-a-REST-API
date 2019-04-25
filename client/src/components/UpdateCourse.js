@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { withAppContext } from './withAppContext';
+import ValidationErrors from './ValidationErrors';
 
 class UpdateCourse extends Component {
   state = {
@@ -81,6 +82,7 @@ class UpdateCourse extends Component {
         <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
+            <ValidationErrors />
             <form onSubmit={this.updateCourse}>
               <div className="grid-66">
                 <div className="course--header">

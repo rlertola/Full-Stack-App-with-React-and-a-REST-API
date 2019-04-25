@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { AuthConsumer } from './AuthContext';
 import { withAppContext } from './withAppContext';
 
