@@ -12,7 +12,9 @@ class CreateCourse extends Component {
     estimatedTime: '',
     materialsNeeded: '',
     emailAddress: this.props.context.state.emailAddress,
-    password: this.props.context.state.password
+    password: this.props.context.state.password,
+    validationError: false,
+    error: ''
   };
 
   createCourse = e => {
@@ -38,7 +40,17 @@ class CreateCourse extends Component {
         this.props.history.push('/');
       })
       .catch(err => {
-        console.log('Error fetching data', err);
+        if (err.response.status === 400) {
+          console.log(err.response);
+          this.setState({
+            validationError: true,
+            error: err.response.data.message
+          });
+          console.log(this.state.validationError);
+          console.log(this.state.error);
+        } else {
+          console.log('Error fetching data', err);
+        }
       });
   };
 
@@ -55,7 +67,7 @@ class CreateCourse extends Component {
         <div className="bounds course--detail">
           <h1>Create Course</h1>
           <div>
-            <ValidationErrors />
+            <ValidationErrors error={this.state.error} />
             <form onSubmit={this.createCourse}>
               <div className="grid-66">
                 <div className="course--header">

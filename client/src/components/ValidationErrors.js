@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { throws } from 'assert';
 
 class ValidationErrors extends Component {
   render() {
@@ -7,8 +8,7 @@ class ValidationErrors extends Component {
         <h2 className="validation--errors--label">Validation errors</h2>
         <div className="validation-errors">
           <ul>
-            <li>Please provide a value for "Title"</li>
-            <li>Please provide a value for "Description"</li>
+            <li>{this.props.error}</li>
           </ul>
         </div>
       </div>
