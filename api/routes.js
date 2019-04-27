@@ -154,14 +154,15 @@ router.post('/courses', authenticateUser, (req, res, next) => {
 // PUT update a course and return no content. Checks if user is authorized to update course.
 router.put('/courses/:courseID', authenticateUser, (req, res, next) => {
   if (req.course.user.equals(req.currentUser._id)) {
-    req.course.updateOne(req.body, (err, result) => {
-      if (!req.body.title || !req.body.description) {
-        err = new Error('Both Title AND Description are required');
-        err.status = 400;
-        return next(err);
-      }
-      res.sendStatus(204);
-    });
+    if (!req.body.title || !req.body.description) {
+      const err = new Error('Both Title AND Description are required');
+      err.status = 400;
+      return next(err);
+    } else {
+      req.course.updateOne(req.body, (err, result) => {
+        res.sendStatus(204);
+      });
+    }
   } else {
     res.status(403);
     res.json({

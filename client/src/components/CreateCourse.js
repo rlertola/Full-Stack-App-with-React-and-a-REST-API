@@ -41,13 +41,11 @@ class CreateCourse extends Component {
       })
       .catch(err => {
         if (err.response.status === 400) {
-          console.log(err.response);
+          const msg = err.response.data.message.split(/(: )/)[4];
           this.setState({
             validationError: true,
-            error: err.response.data.message
+            error: msg
           });
-          console.log(this.state.validationError);
-          console.log(this.state.error);
         } else {
           console.log('Error fetching data', err);
         }

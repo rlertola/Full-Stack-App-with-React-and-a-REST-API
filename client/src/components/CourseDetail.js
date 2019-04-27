@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ActionsBar from './ActionsBar';
+import ReactMarkdown from 'react-markdown';
 
 class CourseDetail extends Component {
   state = {
@@ -52,7 +53,8 @@ class CourseDetail extends Component {
               <p>By {this.state.name}</p>
             </div>
             <div className="course--description">
-              <p>{this.state.description}</p>
+              <ReactMarkdown>{this.state.description}</ReactMarkdown>
+              {/* <ReactMarkdown source={this.state.description} /> */}
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -65,7 +67,8 @@ class CourseDetail extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    <li>{this.state.materialsNeeded}</li>
+                    <ReactMarkdown>{this.state.materialsNeeded}</ReactMarkdown>
+                    {/* <li>{this.state.materialsNeeded}</li> */}
                   </ul>
                 </li>
               </ul>

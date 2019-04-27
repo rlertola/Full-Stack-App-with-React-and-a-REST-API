@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { AuthConsumer } from './AuthContext';
 import { withAppContext } from './withAppContext';
+import ValidationErrors from './ValidationErrors';
 
 class UserSignUp extends Component {
   render() {
     return (
       <AuthConsumer>
-        {({ isAuth, handleChange, signUp }) =>
+        {({ isAuth, handleChange, signUp, validationError, error }) =>
           isAuth ? (
             <Redirect to="/" />
           ) : (
             <div className="bounds">
+              <ValidationErrors error={error} />
               <div className="grid-33 centered signin">
                 <h1>Sign Up</h1>
                 <div>

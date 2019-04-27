@@ -15,7 +15,9 @@ class UpdateCourse extends Component {
     user: this.props.context.state._id,
     emailAddress: this.props.context.state.emailAddress,
     password: this.props.context.state.password,
-    name: ''
+    name: '',
+    validationError: false,
+    error: ''
   };
 
   componentDidMount() {
@@ -64,7 +66,14 @@ class UpdateCourse extends Component {
         this.props.history.push(`/courses/${this.state.courseId}`);
       })
       .catch(err => {
-        console.log('Error fetching data', err);
+        if (err.response.status === 400) {
+          this.setState({
+            validationError: true,
+            error: err.response.data.message
+          });
+        } else {
+          console.log('Error fetching data', err);
+        }
       });
   };
 
@@ -82,7 +91,7 @@ class UpdateCourse extends Component {
         <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
-            <ValidationErrors />
+            <ValidationErrors error={this.state.error} />
             <form onSubmit={this.updateCourse}>
               <div className="grid-66">
                 <div className="course--header">

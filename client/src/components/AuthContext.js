@@ -12,7 +12,9 @@ class AuthProvider extends Component {
     lastName: '',
     emailAddress: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    validationError: false,
+    error: ''
   };
 
   signIn = e => {
@@ -53,7 +55,18 @@ class AuthProvider extends Component {
         this.signIn();
       })
       .catch(err => {
-        console.log('Error fetching data', err);
+        console.log(err.response.data.message);
+        if (err.response.status === 400) {
+          console.log(err.response.data.message.split(/(: )/));
+          const msg = err.response.data.message.split(/(: )/);
+
+          this.setState({
+            validationError: true,
+            error: msg
+          });
+        } else {
+          console.log('Error fetching data', err);
+        }
       });
   };
 
@@ -84,7 +97,8 @@ class AuthProvider extends Component {
           signUp: this.signUp,
           signOut: this.signOut,
           name: this.state.name,
-          handleChange: this.handleChange
+          handleChange: this.handleChange,
+          error: this.state.error
         }}
       >
         {this.props.children}
