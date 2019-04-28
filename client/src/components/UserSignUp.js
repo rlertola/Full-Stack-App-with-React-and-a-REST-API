@@ -8,12 +8,12 @@ class UserSignUp extends Component {
   render() {
     return (
       <AuthConsumer>
-        {({ isAuth, handleChange, signUp, validationError, error }) =>
+        {({ isAuth, handleChange, signUp, validationError, errors }) =>
           isAuth ? (
             <Redirect to="/" />
           ) : (
             <div className="bounds">
-              <ValidationErrors error={error} />
+              <ValidationErrors errors={errors} />
               <div className="grid-33 centered signin">
                 <h1>Sign Up</h1>
                 <div>

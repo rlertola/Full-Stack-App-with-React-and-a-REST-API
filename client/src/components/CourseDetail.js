@@ -54,7 +54,6 @@ class CourseDetail extends Component {
             </div>
             <div className="course--description">
               <ReactMarkdown>{this.state.description}</ReactMarkdown>
-              {/* <ReactMarkdown source={this.state.description} /> */}
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -66,10 +65,7 @@ class CourseDetail extends Component {
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
-                  <ul>
-                    <ReactMarkdown>{this.state.materialsNeeded}</ReactMarkdown>
-                    {/* <li>{this.state.materialsNeeded}</li> */}
-                  </ul>
+                  <ReactMarkdown>{this.state.materialsNeeded}</ReactMarkdown>
                 </li>
               </ul>
             </div>

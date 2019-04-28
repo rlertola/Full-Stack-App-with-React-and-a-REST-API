@@ -14,7 +14,7 @@ class CreateCourse extends Component {
     emailAddress: this.props.context.state.emailAddress,
     password: this.props.context.state.password,
     validationError: false,
-    error: ''
+    errors: ''
   };
 
   createCourse = e => {
@@ -41,10 +41,15 @@ class CreateCourse extends Component {
       })
       .catch(err => {
         if (err.response.status === 400) {
-          const msg = err.response.data.message.split(/(: )/)[4];
+          const errors = err.response.data.message;
+          const messages = Object.values(errors).map(err => {
+            return err.message;
+          });
+          console.log(messages);
+
           this.setState({
             validationError: true,
-            error: msg
+            errors: messages
           });
         } else {
           console.log('Error fetching data', err);
@@ -65,7 +70,7 @@ class CreateCourse extends Component {
         <div className="bounds course--detail">
           <h1>Create Course</h1>
           <div>
-            <ValidationErrors error={this.state.error} />
+            <ValidationErrors errors={this.state.errors} />
             <form onSubmit={this.createCourse}>
               <div className="grid-66">
                 <div className="course--header">

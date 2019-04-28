@@ -14,7 +14,7 @@ class AuthProvider extends Component {
     password: '',
     confirmPassword: '',
     validationError: false,
-    error: ''
+    errors: ''
   };
 
   signIn = e => {
@@ -51,18 +51,18 @@ class AuthProvider extends Component {
         confirmPassword: this.state.confirmPassword
       })
       .then(response => {
-        console.log('signedup');
         this.signIn();
       })
       .catch(err => {
-        console.log(err.response.data.message);
         if (err.response.status === 400) {
-          console.log(err.response.data.message.split(/(: )/));
-          const msg = err.response.data.message.split(/(: )/);
+          const errors = err.response.data.message;
+          const messages = Object.values(errors).map(err => {
+            return err.message;
+          });
 
           this.setState({
             validationError: true,
-            error: msg
+            errors: messages
           });
         } else {
           console.log('Error fetching data', err);
@@ -98,7 +98,7 @@ class AuthProvider extends Component {
           signOut: this.signOut,
           name: this.state.name,
           handleChange: this.handleChange,
-          error: this.state.error
+          errors: this.state.errors
         }}
       >
         {this.props.children}
