@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import ActionsBar from './ActionsBar';
 import ReactMarkdown from 'react-markdown';
@@ -38,6 +39,7 @@ class CourseDetail extends Component {
   };
 
   render() {
+    console.log(this.state.courseExists);
     return (
       <div>
         <ActionsBar
@@ -58,7 +60,7 @@ class CourseDetail extends Component {
           </div>
           <div className="grid-25 grid-right">
             <div className="course--stats">
-              <ul className="course--stats-list">
+              <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
                   <h3>{this.state.estimatedTime}</h3>

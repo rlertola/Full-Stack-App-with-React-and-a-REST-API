@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { withAppContext } from './withAppContext';
 import ValidationErrors from './ValidationErrors';
+import NotFound from './NotFound';
 
 class UpdateCourse extends Component {
   state = {
@@ -84,6 +85,7 @@ class UpdateCourse extends Component {
 
   render() {
     console.log(this.state);
+
     return (
       <div>
         <hr />

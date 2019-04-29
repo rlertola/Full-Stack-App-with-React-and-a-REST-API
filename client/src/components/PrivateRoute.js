@@ -1,14 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { AuthConsumer } from './AuthContext';
-import Forbidden from './Forbidden';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <AuthConsumer>
       {({ isAuth }) => (
         <Route
-          render={props => (isAuth ? <Component {...props} /> : <Forbidden />)}
+          render={props =>
+            isAuth ? <Component {...props} /> : <Redirect to="/forbidden" />
+          }
           {...rest}
         />
       )}

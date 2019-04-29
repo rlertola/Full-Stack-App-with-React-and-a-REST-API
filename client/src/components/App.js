@@ -11,6 +11,9 @@ import CourseDetail from './CourseDetail';
 import UserSignIn from './UserSignIn';
 import UserSignUp from './UserSignUp';
 import PrivateRoute from './PrivateRoute';
+import Forbidden from './Forbidden';
+import NotFound from './NotFound';
+import UnhandledError from './UnhandledError';
 
 class App extends Component {
   render() {
@@ -35,6 +38,10 @@ class App extends Component {
                 />
                 <Route exact path="/signin" component={UserSignIn} />
                 <Route exact path="/signup" component={UserSignUp} />
+                <Route exact path="/forbidden" component={Forbidden} />
+                <Route exact path="/notfound" component={NotFound} />
+                <Route exact path="/error" component={UnhandledError} />
+                <Route component={NotFound} />
               </Switch>
             </AuthProvider>
           </div>

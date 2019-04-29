@@ -59,7 +59,6 @@ class AuthProvider extends Component {
           const messages = Object.values(errors).map(err => {
             return err.message;
           });
-
           this.setState({
             validationError: true,
             errors: messages
