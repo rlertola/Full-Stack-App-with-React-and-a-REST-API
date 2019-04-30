@@ -6,6 +6,10 @@ import axios from 'axios';
 import { withAppContext } from './withAppContext';
 
 class ActionsBar extends Component {
+  state = {
+    ownsCourse: false
+  };
+
   deleteCourse = e => {
     e.preventDefault();
     axios
@@ -29,14 +33,25 @@ class ActionsBar extends Component {
       });
   };
 
+  // This prohibits the user from seeing the update and delete buttons if user doesn't own the course.
+  // This is instead of the exceeds expectations instruction to redirect user to forbidden page.
+  ownsCourse = () => {
+    if (this.props.userId === this.props.context.state._id) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
+    const ownsCourse = this.ownsCourse();
     return (
       <AuthConsumer>
         {({ isAuth }) => (
           <div className="actions--bar">
             <div className="bounds">
               <div className="grid-100">
-                {isAuth ? (
+                {isAuth && ownsCourse ? (
                   <span>
                     <NavLink
                       component={

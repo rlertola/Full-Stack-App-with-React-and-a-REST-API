@@ -21,10 +21,10 @@ const Header = props => {
                 </div>
               ) : (
                 <div>
-                  <NavLink className="signin" to="signin">
+                  <NavLink className="signin" to="../signin">
                     Sign In
                   </NavLink>
-                  <NavLink className="signup" to="signup">
+                  <NavLink className="signup" to="../signup">
                     Sign Up
                   </NavLink>
                 </div>

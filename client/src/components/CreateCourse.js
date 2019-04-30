@@ -63,6 +63,12 @@ class CreateCourse extends Component {
     });
   };
 
+  componentDidMount() {
+    if (this.props.context.state.isAuth) {
+      console.log('yes');
+    }
+  }
+
   render() {
     return (
       <div>

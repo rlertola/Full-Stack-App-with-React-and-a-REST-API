@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import ActionsBar from './ActionsBar';
 import ReactMarkdown from 'react-markdown';
 
 class CourseDetail extends Component {
   state = {
+    userId: '',
     course: {},
     id: this.props.match.params.id,
     title: '',
@@ -25,6 +25,7 @@ class CourseDetail extends Component {
       .then(response => {
         console.log(response);
         this.setState({
+          userId: response.data.user._id,
           course: response.data,
           title: response.data.title,
           description: response.data.description,
@@ -34,18 +35,20 @@ class CourseDetail extends Component {
         });
       })
       .catch(err => {
+        this.props.history.push('/notfound');
         console.log('Error fetching data', err);
       });
   };
 
   render() {
-    console.log(this.state.courseExists);
+    console.log(this.state);
     return (
       <div>
         <ActionsBar
           id={this.state.id}
           course={this.state.course}
           withRouter={this.props}
+          userId={this.state.userId}
         />
         <div className="bounds course--detail">
           <div className="grid-66">

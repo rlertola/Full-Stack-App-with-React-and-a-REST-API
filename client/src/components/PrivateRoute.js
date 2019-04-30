@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthConsumer } from './AuthContext';
+import UserSignIn from './UserSignIn';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -8,7 +9,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       {({ isAuth }) => (
         <Route
           render={props =>
-            isAuth ? <Component {...props} /> : <Redirect to="/forbidden" />
+            isAuth ? <Component {...props} /> : <Redirect to="/signin" />
           }
           {...rest}
         />

@@ -4,11 +4,12 @@ import { AuthConsumer } from './AuthContext';
 
 class UserSignIn extends Component {
   render() {
+    console.log(this.props);
     return (
       <AuthConsumer>
         {({ isAuth, handleChange, signIn }) =>
           isAuth ? (
-            <Redirect to="/" />
+            this.props.history.goBack()
           ) : (
             <div className="bounds">
               <div className="grid-33 centered signin">

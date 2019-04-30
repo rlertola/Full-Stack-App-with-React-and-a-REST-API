@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/global.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 
 import Courses from './Courses';
@@ -41,7 +41,7 @@ class App extends Component {
                 <Route exact path="/forbidden" component={Forbidden} />
                 <Route exact path="/notfound" component={NotFound} />
                 <Route exact path="/error" component={UnhandledError} />
-                <Route component={NotFound} />
+                <Route render={() => <Redirect to="/notfound" />} />
               </Switch>
             </AuthProvider>
           </div>
