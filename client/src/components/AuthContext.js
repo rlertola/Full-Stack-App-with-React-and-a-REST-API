@@ -14,7 +14,8 @@ class AuthProvider extends Component {
     password: '',
     confirmPassword: '',
     validationError: false,
-    errors: ''
+    errors: '',
+    prevPage: ''
   };
 
   signIn = e => {
@@ -80,12 +81,18 @@ class AuthProvider extends Component {
       isAuth: false,
       name: null,
       emailAddress: null,
-      password: null
+      password: null,
+      prevPage: null
+    });
+  };
+
+  setPrevPage = () => {
+    this.setState({
+      prevPage: '/courses/create'
     });
   };
 
   render() {
-    console.log(this.state);
     return (
       <AuthContext.Provider
         value={{
@@ -97,7 +104,9 @@ class AuthProvider extends Component {
           signOut: this.signOut,
           name: this.state.name,
           handleChange: this.handleChange,
-          errors: this.state.errors
+          errors: this.state.errors,
+          prevPage: this.state.prevPage,
+          setPrevPage: this.setPrevPage
         }}
       >
         {this.props.children}
