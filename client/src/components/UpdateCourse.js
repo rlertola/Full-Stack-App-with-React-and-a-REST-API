@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { withAppContext } from './withAppContext';
 import ValidationErrors from './ValidationErrors';
-import NotFound from './NotFound';
 
 class UpdateCourse extends Component {
   state = {
@@ -17,7 +16,6 @@ class UpdateCourse extends Component {
     emailAddress: this.props.context.state.emailAddress,
     password: this.props.context.state.password,
     name: '',
-    validationError: false,
     errors: ''
   };
 
@@ -68,7 +66,6 @@ class UpdateCourse extends Component {
       .catch(err => {
         if (err.response.status === 400) {
           this.setState({
-            validationError: true,
             errors: err.response.data.message
           });
         } else {
@@ -84,8 +81,6 @@ class UpdateCourse extends Component {
   };
 
   render() {
-    console.log(this.state);
-
     return (
       <div>
         <hr />

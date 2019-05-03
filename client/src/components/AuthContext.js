@@ -5,7 +5,7 @@ const AuthContext = React.createContext();
 
 class AuthProvider extends Component {
   state = {
-    isAuth: false,
+    isAuth: '',
     _id: '',
     name: '',
     firstName: '',
@@ -13,9 +13,26 @@ class AuthProvider extends Component {
     emailAddress: '',
     password: '',
     confirmPassword: '',
-    validationError: false,
     errors: '',
     prevPage: ''
+  };
+
+  componentDidMount() {
+    this.updateState();
+  }
+
+  updateState = () => {
+    return Object.keys(this.state).map(key => {
+      return this.setState({
+        [key]: localStorage.getItem(key)
+      });
+    });
+  };
+
+  updateStorage = () => {
+    return Object.keys(this.state).map(key => {
+      return localStorage.setItem(key, this.state[key]);
+    });
   };
 
   signIn = e => {
@@ -35,6 +52,7 @@ class AuthProvider extends Component {
           password: this.state.password,
           name: response.data.name
         });
+        this.updateStorage();
       })
       .catch(err => {
         console.log('Error fetching data', err);
@@ -61,19 +79,12 @@ class AuthProvider extends Component {
             return err.message;
           });
           this.setState({
-            validationError: true,
             errors: messages
           });
         } else {
           console.log('Error fetching data', err);
         }
       });
-  };
-
-  handleChange = e => {
-    this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
   };
 
   signOut = () => {
@@ -84,12 +95,20 @@ class AuthProvider extends Component {
       password: null,
       prevPage: null
     });
+    localStorage.clear();
   };
 
   setPrevPage = () => {
     this.setState({
       prevPage: '/courses/create'
     });
+  };
+
+  handleChange = e => {
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    });
+    localStorage.setItem([e.currentTarget.name], e.currentTarget.value);
   };
 
   render() {

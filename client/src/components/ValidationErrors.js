@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class ValidationErrors extends Component {
   render() {
     const errorMessages = this.props.errors;
-    console.log(this.props.errors);
+
     if (errorMessages) {
       return (
         <div>

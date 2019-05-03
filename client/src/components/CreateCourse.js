@@ -13,7 +13,6 @@ class CreateCourse extends Component {
     materialsNeeded: '',
     emailAddress: this.props.context.state.emailAddress,
     password: this.props.context.state.password,
-    validationError: false,
     errors: ''
   };
 
@@ -45,10 +44,8 @@ class CreateCourse extends Component {
           const messages = Object.values(errors).map(err => {
             return err.message;
           });
-          console.log(messages);
 
           this.setState({
-            validationError: true,
             errors: messages
           });
         } else {

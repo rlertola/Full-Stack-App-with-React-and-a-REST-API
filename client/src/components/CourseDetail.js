@@ -23,7 +23,6 @@ class CourseDetail extends Component {
     axios
       .get(`http://localhost:5000/api/courses/${this.state.id}`)
       .then(response => {
-        console.log(response);
         this.setState({
           userId: response.data.user._id,
           course: response.data,
@@ -41,7 +40,6 @@ class CourseDetail extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <ActionsBar

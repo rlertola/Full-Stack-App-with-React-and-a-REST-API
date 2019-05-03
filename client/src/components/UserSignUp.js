@@ -8,7 +8,7 @@ class UserSignUp extends Component {
   render() {
     return (
       <AuthConsumer>
-        {({ isAuth, handleChange, signUp, validationError, errors }) =>
+        {({ isAuth, handleChange, signUp, errors }) =>
           isAuth ? (
             <Redirect to="/" />
           ) : (
@@ -44,6 +44,7 @@ class UserSignUp extends Component {
                         name="emailAddress"
                         type="text"
                         className=""
+                        autoComplete="username"
                         placeholder="Email Address"
                         onChange={handleChange}
                       />
@@ -54,6 +55,7 @@ class UserSignUp extends Component {
                         name="password"
                         type="password"
                         className=""
+                        autoComplete="new-password"
                         placeholder="Password"
                         onChange={handleChange}
                       />
@@ -64,6 +66,7 @@ class UserSignUp extends Component {
                         name="confirmPassword"
                         type="password"
                         className=""
+                        autoComplete="new-password"
                         placeholder="Confirm Password"
                         onChange={handleChange}
                       />
