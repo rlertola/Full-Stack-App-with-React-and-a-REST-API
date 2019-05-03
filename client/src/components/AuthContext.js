@@ -36,20 +36,22 @@ class AuthProvider extends Component {
   };
 
   signIn = e => {
+    const { emailAddress, password } = this.state;
+
     if (e) e.preventDefault();
     axios
       .get(`http://localhost:5000/api/users`, {
         auth: {
-          username: this.state.emailAddress,
-          password: this.state.password
+          username: emailAddress,
+          password
         }
       })
       .then(response => {
         this.setState({
           isAuth: true,
           _id: response.data.id,
-          emailAddress: this.state.emailAddress,
-          password: this.state.password,
+          emailAddress,
+          password,
           name: response.data.name
         });
         this.updateStorage();
@@ -60,14 +62,22 @@ class AuthProvider extends Component {
   };
 
   signUp = e => {
+    const {
+      firstName,
+      lastName,
+      emailAddress,
+      password,
+      confirmPassword
+    } = this.state;
+
     e.preventDefault();
     axios
       .post(`http://localhost:5000/api/users`, {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        emailAddress: this.state.emailAddress,
-        password: this.state.password,
-        confirmPassword: this.state.confirmPassword
+        firstName,
+        lastName,
+        emailAddress,
+        password,
+        confirmPassword
       })
       .then(response => {
         this.signIn();
@@ -112,19 +122,21 @@ class AuthProvider extends Component {
   };
 
   render() {
+    const { _id, isAuth, name, errors, prevPage } = this.state;
+
     return (
       <AuthContext.Provider
         value={{
-          id: this.state._id,
+          id: _id,
           state: this.state,
-          isAuth: this.state.isAuth,
+          isAuth,
           signIn: this.signIn,
           signUp: this.signUp,
           signOut: this.signOut,
-          name: this.state.name,
+          name,
           handleChange: this.handleChange,
-          errors: this.state.errors,
-          prevPage: this.state.prevPage,
+          errors,
+          prevPage,
           setPrevPage: this.setPrevPage
         }}
       >

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import ValidationErrors from './ValidationErrors';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 import { withAppContext } from './withAppContext';
+
+import ValidationErrors from './ValidationErrors';
 
 class CreateCourse extends Component {
   state = {
@@ -61,6 +62,14 @@ class CreateCourse extends Component {
   };
 
   render() {
+    const {
+      errors,
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded
+    } = this.state;
+
     return (
       <div>
         <hr />

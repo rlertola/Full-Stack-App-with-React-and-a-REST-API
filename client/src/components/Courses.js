@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
 import NewCourseButton from './NewCourseButton';
 import Course from './Course';
 
@@ -26,17 +27,19 @@ class Courses extends Component {
   };
 
   render() {
+    const { courses } = this.state;
+
     return (
       <div>
         <hr />
         <div className="bounds">
-          {Object.keys(this.state.courses).map(key => {
+          {Object.keys(courses).map(key => {
             return (
               <Course
-                title={this.state.courses[key].title}
+                title={courses[key].title}
                 key={key}
                 index={key}
-                id={this.state.courses[key]._id}
+                id={courses[key]._id}
               />
             );
           })}

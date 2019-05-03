@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import UpdateCourse from './UpdateCourse';
 import { AuthConsumer } from './AuthContext';
-import axios from 'axios';
 import { withAppContext } from './withAppContext';
+import axios from 'axios';
+
+import UpdateCourse from './UpdateCourse';
 
 class ActionsBar extends Component {
   state = {
@@ -11,14 +12,16 @@ class ActionsBar extends Component {
   };
 
   deleteCourse = e => {
+    const { emailAddress, password } = this.props.context.state;
+
     e.preventDefault();
     axios
       .delete(
         `http://localhost:5000/api/courses/${this.props.id}`,
         {
           auth: {
-            username: this.props.context.state.emailAddress,
-            password: this.props.context.state.password
+            username: emailAddress,
+            password
           }
         },
         {
@@ -44,7 +47,9 @@ class ActionsBar extends Component {
   };
 
   render() {
+    const { course, id } = this.props;
     const ownsCourse = this.ownsCourse();
+
     return (
       <AuthConsumer>
         {({ isAuth }) => (
@@ -54,13 +59,8 @@ class ActionsBar extends Component {
                 {isAuth && ownsCourse ? (
                   <span>
                     <NavLink
-                      component={
-                        <UpdateCourse
-                          course={this.props.course}
-                          id={this.props.id}
-                        />
-                      }
-                      to={`${this.props.id}/update`}
+                      component={<UpdateCourse course={course} id={id} />}
+                      to={`${id}/update`}
                       className="button"
                     >
                       Update Course

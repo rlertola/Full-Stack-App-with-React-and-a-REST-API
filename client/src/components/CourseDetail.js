@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ActionsBar from './ActionsBar';
 import ReactMarkdown from 'react-markdown';
+
+import ActionsBar from './ActionsBar';
 
 class CourseDetail extends Component {
   state = {
@@ -40,23 +41,34 @@ class CourseDetail extends Component {
   };
 
   render() {
+    const {
+      id,
+      course,
+      userId,
+      title,
+      name,
+      description,
+      estimatedTime,
+      materialsNeeded
+    } = this.state;
+
     return (
       <div>
         <ActionsBar
-          id={this.state.id}
-          course={this.state.course}
+          id={id}
+          course={course}
           withRouter={this.props}
-          userId={this.state.userId}
+          userId={userId}
         />
         <div className="bounds course--detail">
           <div className="grid-66">
             <div className="course--header">
               <h4 className="course--label">Course</h4>
-              <h3 className="course--title">{this.state.title}</h3>
-              <p>By {this.state.name}</p>
+              <h3 className="course--title">{title}</h3>
+              <p>By {name}</p>
             </div>
             <div className="course--description">
-              <ReactMarkdown>{this.state.description}</ReactMarkdown>
+              <ReactMarkdown>{description}</ReactMarkdown>
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -64,11 +76,11 @@ class CourseDetail extends Component {
               <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
-                  <h3>{this.state.estimatedTime}</h3>
+                  <h3>{estimatedTime}</h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
-                  <ReactMarkdown>{this.state.materialsNeeded}</ReactMarkdown>
+                  <ReactMarkdown>{materialsNeeded}</ReactMarkdown>
                 </li>
               </ul>
             </div>
