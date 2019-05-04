@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AuthConsumer } from './AuthContext';
-import { withAppContext } from './withAppContext';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 import UpdateCourse from './UpdateCourse';
+import { AuthConsumer } from './AuthContext';
+import { withAppContext } from './withAppContext';
 
 class ActionsBar extends Component {
   state = {
     ownsCourse: false
   };
 
+  // Redirects to the courses page after deletion.
   deleteCourse = e => {
     const { emailAddress, password } = this.props.context.state;
-
     e.preventDefault();
     axios
       .delete(
@@ -28,7 +28,7 @@ class ActionsBar extends Component {
           user: this.props.context.id
         }
       )
-      .then(response => {
+      .then(() => {
         this.props.withRouter.history.push('/');
       })
       .catch(err => {
@@ -39,13 +39,14 @@ class ActionsBar extends Component {
   // This prohibits the user from seeing the update and delete buttons if user doesn't own the course.
   // This is instead of the exceeds expectations instruction to redirect user to forbidden page.
   ownsCourse = () => {
-    if (this.props.userId === this.props.context.state._id) {
+    if (this.props.userId === this.props.context.id) {
       return true;
     } else {
       return false;
     }
   };
 
+  // Only shows the UpdateCourse and DeleteCourse buttons if user isAuth and that user owns the course.
   render() {
     const { course, id } = this.props;
     const ownsCourse = this.ownsCourse();

@@ -3,24 +3,27 @@ import axios from 'axios';
 
 const AuthContext = React.createContext();
 
+// Handles SignIn/Out/Up.
+// Uses localStorage to persist user credentials.
 class AuthProvider extends Component {
   state = {
-    isAuth: '',
-    _id: '',
-    name: '',
-    firstName: '',
-    lastName: '',
-    emailAddress: '',
-    password: '',
-    confirmPassword: '',
-    errors: '',
-    prevPage: ''
+    isAuth: false,
+    _id: null,
+    name: null,
+    firstName: null,
+    lastName: null,
+    emailAddress: null,
+    password: null,
+    confirmPassword: null,
+    errors: null,
+    prevPage: null
   };
 
   componentDidMount() {
     this.updateState();
   }
 
+  // Sets state to user creds in localStorage.
   updateState = () => {
     return Object.keys(this.state).map(key => {
       return this.setState({
@@ -29,6 +32,7 @@ class AuthProvider extends Component {
     });
   };
 
+  // Updates localStorage when signing up/in.
   updateStorage = () => {
     return Object.keys(this.state).map(key => {
       return localStorage.setItem(key, this.state[key]);
@@ -97,6 +101,7 @@ class AuthProvider extends Component {
       });
   };
 
+  // Logs user out and clears localStorage.
   signOut = () => {
     this.setState({
       isAuth: false,
@@ -108,12 +113,14 @@ class AuthProvider extends Component {
     localStorage.clear();
   };
 
+  // When user clicks on CreateCourse and isn't signed in, this saves the previous page as create so that after signing in, user is redirected back to create. Used in NewCourseButton.
   setPrevPage = () => {
     this.setState({
       prevPage: '/courses/create'
     });
   };
 
+  // Updates as user types in inputs.
   handleChange = e => {
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value

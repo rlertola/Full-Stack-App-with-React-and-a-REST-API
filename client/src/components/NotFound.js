@@ -1,5 +1,6 @@
 import React from 'react';
 
+// When a bad url is entered, or when a course id doesn't exist.
 const NotFound = () => {
   return (
     <div className="bounds">

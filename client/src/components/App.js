@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../styles/global.css';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
 
+import { AuthProvider } from './AuthContext';
 import Courses from './Courses';
 import Header from './Header';
 import CreateCourse from './CreateCourse';
@@ -15,6 +15,7 @@ import Forbidden from './Forbidden';
 import NotFound from './NotFound';
 import UnhandledError from './UnhandledError';
 
+// PrivateRoute on Create and UpdateCourse.
 class App extends Component {
   render() {
     return (

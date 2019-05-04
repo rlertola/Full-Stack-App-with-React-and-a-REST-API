@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import axios from 'axios';
-import { withAppContext } from './withAppContext';
-import ValidationErrors from './ValidationErrors';
+import { NavLink } from 'react-router-dom';
 
+import ValidationErrors from './ValidationErrors';
+import { withAppContext } from './withAppContext';
+
+// Gets the course when rendered, and updates when button is clicked.
 class UpdateCourse extends Component {
   state = {
-    course: {},
-    courseId: this.props.match.params.id,
-    title: '',
-    description: '',
-    estimatedTime: '',
-    materialsNeeded: '',
-    user: this.props.context.state._id,
-    emailAddress: this.props.context.state.emailAddress,
-    password: this.props.context.state.password,
-    name: '',
-    errors: ''
+    title: null,
+    description: null,
+    estimatedTime: null,
+    materialsNeeded: null,
+    name: null,
+    errors: null
   };
 
   componentDidMount() {
@@ -24,11 +21,11 @@ class UpdateCourse extends Component {
   }
 
   getCourse = () => {
+    const { id } = this.props.match.params;
     axios
-      .get(`http://localhost:5000/api/courses/${this.state.courseId}`)
+      .get(`http://localhost:5000/api/courses/${id}`)
       .then(response => {
         this.setState({
-          course: response.data,
           title: response.data.title,
           description: response.data.description,
           estimatedTime: response.data.estimatedTime,
@@ -42,12 +39,13 @@ class UpdateCourse extends Component {
   };
 
   updateCourse = e => {
+    const { id } = this.props.match.params;
     e.preventDefault();
     axios
       .put(
-        `http://localhost:5000/api/courses/${this.props.match.params.id}`,
+        `http://localhost:5000/api/courses/${id}`,
         {
-          user: this.state.user,
+          user: this.props.context.state._id,
           title: this.state.title,
           description: this.state.description,
           estimatedTime: this.state.estimatedTime,
@@ -55,13 +53,13 @@ class UpdateCourse extends Component {
         },
         {
           auth: {
-            username: this.state.emailAddress,
-            password: this.state.password
+            username: this.props.context.state.emailAddress,
+            password: this.props.context.state.password
           }
         }
       )
-      .then(response => {
-        this.props.history.push(`/courses/${this.state.courseId}`);
+      .then(() => {
+        this.props.history.push(`/courses/${id}`);
       })
       .catch(err => {
         if (err.response.status === 400) {
@@ -74,20 +72,31 @@ class UpdateCourse extends Component {
       });
   };
 
+  // Updates as user types in inputs.
   handleChange = e => {
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value
     });
   };
 
+  // Shows validation errors if title and description are not entered.
   render() {
+    const {
+      errors,
+      title,
+      name,
+      description,
+      estimatedTime,
+      materialsNeeded
+    } = this.state;
+
     return (
       <div>
         <hr />
         <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
-            <ValidationErrors errors={this.state.errors} />
+            <ValidationErrors errors={errors} />
             <form onSubmit={this.updateCourse}>
               <div className="grid-66">
                 <div className="course--header">
@@ -100,10 +109,10 @@ class UpdateCourse extends Component {
                       type="text"
                       placeholder="Course title..."
                       onChange={this.handleChange}
-                      value={this.state.title}
+                      value={title || ''}
                     />
                   </div>
-                  <p>By {this.state.name}</p>
+                  <p>By {name}</p>
                 </div>
                 <div className="course--description">
                   <div>
@@ -113,7 +122,7 @@ class UpdateCourse extends Component {
                       className=""
                       placeholder="Course description..."
                       onChange={this.handleChange}
-                      value={this.state.description || ''}
+                      value={description || ''}
                     />
                   </div>
                 </div>
@@ -131,7 +140,7 @@ class UpdateCourse extends Component {
                           className="course--time--input"
                           placeholder="Hours"
                           onChange={this.handleChange}
-                          value={this.state.estimatedTime || ''}
+                          value={estimatedTime || ''}
                         />
                       </div>
                     </li>
@@ -144,7 +153,7 @@ class UpdateCourse extends Component {
                           className=""
                           placeholder="List materials..."
                           onChange={this.handleChange}
-                          value={this.state.materialsNeeded || ''}
+                          value={materialsNeeded || ''}
                         />
                       </div>
                     </li>

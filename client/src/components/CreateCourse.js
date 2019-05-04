@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-import { withAppContext } from './withAppContext';
 
 import ValidationErrors from './ValidationErrors';
+import { withAppContext } from './withAppContext';
 
 class CreateCourse extends Component {
   state = {
-    user: this.props.context.state._id,
-    title: '',
-    description: '',
-    estimatedTime: '',
-    materialsNeeded: '',
-    emailAddress: this.props.context.state.emailAddress,
-    password: this.props.context.state.password,
-    errors: ''
+    title: null,
+    description: null,
+    estimatedTime: null,
+    materialsNeeded: null,
+    errors: null
   };
 
   createCourse = e => {
@@ -23,7 +20,7 @@ class CreateCourse extends Component {
       .post(
         `http://localhost:5000/api/courses`,
         {
-          user: this.state.user,
+          user: this.props.context.id,
           title: this.state.title,
           description: this.state.description,
           estimatedTime: this.state.estimatedTime,
@@ -31,8 +28,8 @@ class CreateCourse extends Component {
         },
         {
           auth: {
-            username: this.state.emailAddress,
-            password: this.state.password
+            username: this.props.context.state.emailAddress,
+            password: this.props.context.state.password
           }
         }
       )
@@ -55,20 +52,16 @@ class CreateCourse extends Component {
       });
   };
 
+  // Updates as user types in inputs.
   handleChange = e => {
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value
     });
   };
 
+  // Displays ValidationErrors if title or description are empty.
   render() {
-    const {
-      errors,
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded
-    } = this.state;
+    const { errors } = this.state;
 
     return (
       <div>
@@ -76,7 +69,7 @@ class CreateCourse extends Component {
         <div className="bounds course--detail">
           <h1>Create Course</h1>
           <div>
-            <ValidationErrors errors={this.state.errors} />
+            <ValidationErrors errors={errors} />
             <form onSubmit={this.createCourse}>
               <div className="grid-66">
                 <div className="course--header">
@@ -89,7 +82,6 @@ class CreateCourse extends Component {
                       className="input-title course--title--input"
                       placeholder="Course title..."
                       onChange={this.handleChange}
-                      value={this.state.title}
                     />
                   </div>
 
@@ -103,7 +95,6 @@ class CreateCourse extends Component {
                       className=""
                       placeholder="Course description..."
                       onChange={this.handleChange}
-                      value={this.state.description}
                     />
                   </div>
                 </div>
@@ -121,7 +112,6 @@ class CreateCourse extends Component {
                           className="course--time--input"
                           placeholder="Hours"
                           onChange={this.handleChange}
-                          value={this.state.estimatedTime}
                         />
                       </div>
                     </li>
@@ -134,7 +124,6 @@ class CreateCourse extends Component {
                           className=""
                           placeholder="List materials..."
                           onChange={this.handleChange}
-                          value={this.state.materialsNeeded}
                         />
                       </div>
                     </li>

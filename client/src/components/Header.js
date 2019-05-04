@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
 import { AuthConsumer } from './AuthContext';
 
-const Header = props => {
+// Contains the Sign In/Up/Out. Changes from Up to Out and displays user's name when signed in.
+const Header = () => {
   return (
     <AuthConsumer>
       {({ isAuth, name, signOut }) => (

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+
 import { AuthConsumer } from './AuthContext';
 
+// All handled in AuthContext. Will send user to the CreateCourse or UpdateCourse if they clicked on that before they were redirected to the SignIn page.
 class UserSignIn extends Component {
   render() {
     return (

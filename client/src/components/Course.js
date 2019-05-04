@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import CourseDetail from './CourseDetail';
 
+// Individual course buttons on the courses route. Reroutes to the CourseDetail page when clicked.
 class Course extends Component {
   render() {
     const { index, id, title } = this.props;

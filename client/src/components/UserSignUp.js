@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import { AuthConsumer } from './AuthContext';
-import { withAppContext } from './withAppContext';
-import ValidationErrors from './ValidationErrors';
 
+import ValidationErrors from './ValidationErrors';
+import { AuthConsumer } from './AuthContext';
+
+// All handled in AuthContext. Will sign in user and send them to courses page.
 class UserSignUp extends Component {
   render() {
     return (
@@ -85,7 +86,7 @@ class UserSignUp extends Component {
                 <p>&nbsp;</p>
                 <p>
                   Already have a user account?
-                  <a href="sign-in.html">Click here</a> to sign in!
+                  <a href="/signin">Click here</a> to sign in!
                 </p>
               </div>
             </div>
@@ -96,4 +97,4 @@ class UserSignUp extends Component {
   }
 }
 
-export default withAppContext(UserSignUp);
+export default UserSignUp;
