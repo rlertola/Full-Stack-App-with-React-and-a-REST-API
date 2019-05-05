@@ -61,7 +61,7 @@ class AuthProvider extends Component {
         this.updateStorage();
       })
       .catch(err => {
-        console.log('Error fetching data', err);
+        console.log('Error signing in', err);
       });
   };
 
@@ -83,7 +83,7 @@ class AuthProvider extends Component {
         password,
         confirmPassword
       })
-      .then(response => {
+      .then(() => {
         this.signIn();
       })
       .catch(err => {
@@ -96,7 +96,7 @@ class AuthProvider extends Component {
             errors: messages
           });
         } else {
-          console.log('Error fetching data', err);
+          console.log('Error signing up', err);
         }
       });
   };

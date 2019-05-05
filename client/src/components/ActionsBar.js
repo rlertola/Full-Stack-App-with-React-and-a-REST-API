@@ -32,7 +32,11 @@ class ActionsBar extends Component {
         this.props.withRouter.history.push('/');
       })
       .catch(err => {
-        console.log('Error deleting data', err);
+        if (err.response.status === 500) {
+          this.props.withRouter.history.push('/error');
+        } else {
+          console.log('Error deleting data', err);
+        }
       });
   };
 

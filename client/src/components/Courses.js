@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Spring } from 'react-spring/renderprops';
 
 import NewCourseButton from './NewCourseButton';
 import Course from './Course';
@@ -22,7 +23,7 @@ class Courses extends Component {
         });
       })
       .catch(err => {
-        console.log('Error fetching data', err);
+        console.log('Error fetching courses', err);
       });
   };
 
@@ -30,22 +31,26 @@ class Courses extends Component {
     const { courses } = this.state;
 
     return (
-      <div>
-        <hr />
-        <div className="bounds">
-          {Object.keys(courses).map(key => {
-            return (
-              <Course
-                title={courses[key].title}
-                key={key}
-                index={key}
-                id={courses[key]._id}
-              />
-            );
-          })}
-          <NewCourseButton />
-        </div>
-      </div>
+      <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
+        {props => (
+          <div style={props}>
+            <hr />
+            <div className="bounds">
+              {Object.keys(courses).map(key => {
+                return (
+                  <Course
+                    title={courses[key].title}
+                    key={key}
+                    index={key}
+                    id={courses[key]._id}
+                  />
+                );
+              })}
+              <NewCourseButton />
+            </div>
+          </div>
+        )}
+      </Spring>
     );
   }
 }

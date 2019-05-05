@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { Spring } from 'react-spring/renderprops';
 
 import ValidationErrors from './ValidationErrors';
 import { withAppContext } from './withAppContext';
@@ -34,7 +35,12 @@ class UpdateCourse extends Component {
         });
       })
       .catch(err => {
-        console.log('Error fetching data', err);
+        if (err.response.status === 500) {
+          this.props.history.push('/error');
+        } else {
+          this.props.history.push('/notfound');
+          console.log('Error fetching course', err);
+        }
       });
   };
 
@@ -67,7 +73,7 @@ class UpdateCourse extends Component {
             errors: err.response.data.message
           });
         } else {
-          console.log('Error fetching data', err);
+          console.log('Error updating course', err);
         }
       });
   };
@@ -91,88 +97,92 @@ class UpdateCourse extends Component {
     } = this.state;
 
     return (
-      <div>
-        <hr />
-        <div className="bounds course--detail">
-          <h1>Update Course</h1>
-          <div>
-            <ValidationErrors errors={errors} />
-            <form onSubmit={this.updateCourse}>
-              <div className="grid-66">
-                <div className="course--header">
-                  <h4 className="course--label">Course</h4>
-                  <div>
-                    <input
-                      className="input-title course--title--input"
-                      id="title"
-                      name="title"
-                      type="text"
-                      placeholder="Course title..."
-                      onChange={this.handleChange}
-                      value={title || ''}
-                    />
-                  </div>
-                  <p>By {name}</p>
-                </div>
-                <div className="course--description">
-                  <div>
-                    <textarea
-                      id="description"
-                      name="description"
-                      className=""
-                      placeholder="Course description..."
-                      onChange={this.handleChange}
-                      value={description || ''}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="grid-25 grid-right">
-                <div className="course--stats">
-                  <ul className="course--stats--list">
-                    <li className="course--stats--list--item">
-                      <h4>Estimated Time</h4>
+      <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
+        {props => (
+          <div style={props}>
+            <hr />
+            <div className="bounds course--detail">
+              <h1>Update Course</h1>
+              <div>
+                <ValidationErrors errors={errors} />
+                <form onSubmit={this.updateCourse}>
+                  <div className="grid-66">
+                    <div className="course--header">
+                      <h4 className="course--label">Course</h4>
                       <div>
                         <input
-                          id="estimatedTime"
-                          name="estimatedTime"
+                          className="input-title course--title--input"
+                          id="title"
+                          name="title"
                           type="text"
-                          className="course--time--input"
-                          placeholder="Hours"
+                          placeholder="Course title..."
                           onChange={this.handleChange}
-                          value={estimatedTime || ''}
+                          value={title || ''}
                         />
                       </div>
-                    </li>
-                    <li className="course--stats--list--item">
-                      <h4>Materials Needed</h4>
+                      <p>By {name}</p>
+                    </div>
+                    <div className="course--description">
                       <div>
                         <textarea
-                          id="materialsNeeded"
-                          name="materialsNeeded"
+                          id="description"
+                          name="description"
                           className=""
-                          placeholder="List materials..."
+                          placeholder="Course description..."
                           onChange={this.handleChange}
-                          value={materialsNeeded || ''}
+                          value={description || ''}
                         />
                       </div>
-                    </li>
-                  </ul>
-                </div>
+                    </div>
+                  </div>
+                  <div className="grid-25 grid-right">
+                    <div className="course--stats">
+                      <ul className="course--stats--list">
+                        <li className="course--stats--list--item">
+                          <h4>Estimated Time</h4>
+                          <div>
+                            <input
+                              id="estimatedTime"
+                              name="estimatedTime"
+                              type="text"
+                              className="course--time--input"
+                              placeholder="Hours"
+                              onChange={this.handleChange}
+                              value={estimatedTime || ''}
+                            />
+                          </div>
+                        </li>
+                        <li className="course--stats--list--item">
+                          <h4>Materials Needed</h4>
+                          <div>
+                            <textarea
+                              id="materialsNeeded"
+                              name="materialsNeeded"
+                              className=""
+                              placeholder="List materials..."
+                              onChange={this.handleChange}
+                              value={materialsNeeded || ''}
+                            />
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="grid-100 pad-bottom">
+                    <button className="button" type="submit">
+                      Update Course
+                    </button>
+                    <NavLink to={'/'} className="button button-secondary">
+                      {' '}
+                      Cancel
+                    </NavLink>
+                  </div>
+                </form>
               </div>
-              <div className="grid-100 pad-bottom">
-                <button className="button" type="submit">
-                  Update Course
-                </button>
-                <NavLink to={'/'} className="button button-secondary">
-                  {' '}
-                  Cancel
-                </NavLink>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </Spring>
     );
   }
 }
