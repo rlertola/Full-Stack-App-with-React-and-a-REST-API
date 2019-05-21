@@ -27,7 +27,7 @@ This is the home page. It renders the Courses component which displays each Cour
 Header is displayed throughout the application. It contains links to the SignIn and SignUp pages. When a user is logged in, it will display user's name and a signout option.
 
 **SignIn, SignUp, signOut & AuthContext**
-All signing in and out, and global state is handled in the AuthContext component. The user's credentials are persisted on page refresh. The global signOut method in AuthContext signs the user out and clears the user's credentials from localStorage.
+Handles signing in and out, and global state is handled in the AuthContext component. The user's credentials are persisted on page refresh. The global signOut method in AuthContext signs the user out and clears the user's credentials from localStorage.
 
 **CreateCourse & UpdateCourse**
 These routes are wrapped in a ProtectedRoute component. When user tries to click on NewCourseButton and aren't signed in, they are redirected to SignIn, and redirected back after login.
