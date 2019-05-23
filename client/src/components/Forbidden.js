@@ -1,6 +1,6 @@
 import React from 'react';
 
-// This component is essentially useless as I have set it up so that the user sees the update and delete buttons if they own the course, or it goes to the notfound route if a non-existent course is requested.
+// Instead of using this component I have set it up so that the user sees the update and delete buttons if they own the course, or it goes to the notfound route if a non-existent course is requested. If an unauthorized user tries to enter a link to update a course manually, they will be taken straight to the signin page.
 const Forbidden = () => {
   return (
     <div className="bounds">

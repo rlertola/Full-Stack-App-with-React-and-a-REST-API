@@ -14,6 +14,7 @@ import PrivateRoute from './PrivateRoute';
 import Forbidden from './Forbidden';
 import NotFound from './NotFound';
 import UnhandledError from './UnhandledError';
+import UserSignOut from './UserSignOut';
 
 // PrivateRoute on Create and UpdateCourse.
 class App extends Component {
@@ -26,19 +27,15 @@ class App extends Component {
               <Header />
               <Switch>
                 <Route exact path="/" component={Courses} />
-                <PrivateRoute
-                  exact
-                  path="/courses/create"
-                  component={CreateCourse}
-                />
+                <PrivateRoute path="/courses/create" component={CreateCourse} />
                 <Route exact path="/courses/:id" component={CourseDetail} />
                 <PrivateRoute
-                  exact
                   path="/courses/:id/update"
                   component={UpdateCourse}
                 />
                 <Route exact path="/signin" component={UserSignIn} />
                 <Route exact path="/signup" component={UserSignUp} />
+                <Route exact path="/signout" component={UserSignOut} />
                 <Route exact path="/forbidden" component={Forbidden} />
                 <Route exact path="/notfound" component={NotFound} />
                 <Route exact path="/error" component={UnhandledError} />

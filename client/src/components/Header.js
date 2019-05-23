@@ -17,7 +17,7 @@ const Header = () => {
                   <NavLink className="signin" to="signin">
                     {`Welcome, ${name}`}
                   </NavLink>
-                  <NavLink className="signup" to="/" onClick={signOut}>
+                  <NavLink className="signout" to="/signout" onClick={signOut}>
                     Sign Out
                   </NavLink>
                 </div>

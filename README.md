@@ -6,16 +6,43 @@ This combines with project 9 and connects the api with a React frontend.
 
 #### Getting Started
 
-To reset the database:
+cd to **/api** and type
 
 ```
-npm run seed
+npm install
+```
+
+To start mongo, cd to **/api** and type:
+
+```
+mongod
 ```
 
 Start the application.
 
+In another terminal, cd to **/api** and type:
+
 ```
 npm start
+```
+
+In another terminal, cd to **/client** and type:
+
+```
+npm install
+```
+
+then:
+
+```
+npm start
+```
+
+To reset the database, cd to /api and type:
+
+```
+npm run seed
+
 ```
 
 #### Pages
@@ -26,7 +53,7 @@ This is the home page. It renders the Courses component which displays each Cour
 **Header**
 Header is displayed throughout the application. It contains links to the SignIn and SignUp pages. When a user is logged in, it will display user's name and a signout option.
 
-**SignIn, SignUp, signOut & AuthContext**
+**SignIn, SignUp, SignOut & AuthContext**
 Handles signing in and out, and global state is handled in the AuthContext component. The user's credentials are persisted on page refresh. The global signOut method in AuthContext signs the user out and clears the user's credentials from localStorage.
 
 **CreateCourse & UpdateCourse**
@@ -39,5 +66,11 @@ Errors are displayed via the ValidationErrors component in SignUp, CreateCourse 
 
 If a bad url or bad course id is entered, the NotFound component is rendered. If there is a 500 error, the UnhandledError component will render.
 
+In place of the forbidden route, if the user isn't signed in or doesn't own the course, they update and delete buttons will not be shown. If an unauthorized user tries to manully enter or paste in a link to update, they will be taken to the signup page.
+
 **Markdown Support**
 User may use markdown to enter text in the course fields and it will display correctly.
+
+```
+
+```
