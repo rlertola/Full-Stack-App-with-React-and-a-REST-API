@@ -50,14 +50,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.join(__dirname, 'client/public/index.html'), function(err) {
-//     if (err) {
-//       res.status(500).send(err);
-//     }
-//   });
-// });
-
 // Global error handler.
 app.use((err, req, res, next) => {
   if (enableGlobalErrorLogging) {

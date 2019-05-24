@@ -29,4 +29,5 @@ class Course extends Component {
   }
 }
 
-export default Course;
+// React.memo stops component from constantly rerendering.
+export default React.memo(Course);
