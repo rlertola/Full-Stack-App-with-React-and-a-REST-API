@@ -120,6 +120,12 @@ class AuthProvider extends Component {
     });
   };
 
+  clearPrevPage = () => {
+    this.setState({
+      prevPage: null
+    });
+  };
+
   // Updates as user types in inputs.
   handleChange = e => {
     this.setState({
@@ -144,7 +150,8 @@ class AuthProvider extends Component {
           handleChange: this.handleChange,
           errors,
           prevPage,
-          setPrevPage: this.setPrevPage
+          setPrevPage: this.setPrevPage,
+          clearPrevPage: this.clearPrevPage
         }}
       >
         {this.props.children}

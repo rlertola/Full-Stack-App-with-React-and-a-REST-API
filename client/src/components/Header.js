@@ -10,7 +10,9 @@ const Header = () => {
       {({ isAuth, name, signOut }) => (
         <div className="header">
           <div className="bounds">
-            <h1 className="header--logo">Courses</h1>
+            <NavLink to="/">
+              <h1 className="header--logo">Courses</h1>
+            </NavLink>
             <nav>
               {isAuth ? (
                 <div>

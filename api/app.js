@@ -50,12 +50,13 @@ app.get('/', (req, res) => {
   });
 });
 
-// Send 404 if no other route matched.
-app.use((req, res) => {
-  res.status(404).json({
-    message: 'Route Not Found'
-  });
-});
+// app.get('/*', function(req, res) {
+//   res.sendFile(path.join(__dirname, 'client/public/index.html'), function(err) {
+//     if (err) {
+//       res.status(500).send(err);
+//     }
+//   });
+// });
 
 // Global error handler.
 app.use((err, req, res, next) => {
@@ -65,6 +66,13 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     message: err.errors
+  });
+});
+
+// Send 404 if no other route matched.
+app.use((req, res) => {
+  res.status(404).json({
+    message: 'Route Not Found'
   });
 });
 

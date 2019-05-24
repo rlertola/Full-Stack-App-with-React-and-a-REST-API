@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/global.css';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { AuthProvider } from './AuthContext';
 import Courses from './Courses';
@@ -20,31 +20,35 @@ import UserSignOut from './UserSignOut';
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <div className="root">
-          <div>
-            <AuthProvider>
-              <Header />
-              <Switch>
-                <Route exact path="/" component={Courses} />
-                <PrivateRoute path="/courses/create" component={CreateCourse} />
-                <Route exact path="/courses/:id" component={CourseDetail} />
-                <PrivateRoute
-                  path="/courses/:id/update"
-                  component={UpdateCourse}
-                />
-                <Route exact path="/signin" component={UserSignIn} />
-                <Route exact path="/signup" component={UserSignUp} />
-                <Route exact path="/signout" component={UserSignOut} />
-                <Route exact path="/forbidden" component={Forbidden} />
-                <Route exact path="/notfound" component={NotFound} />
-                <Route exact path="/error" component={UnhandledError} />
-                <Route render={() => <Redirect to="/notfound" />} />
-              </Switch>
-            </AuthProvider>
-          </div>
+      <div className="root">
+        <div>
+          <AuthProvider>
+            <Header />
+            <Switch>
+              <Route exact path="/" component={Courses} />
+              <PrivateRoute
+                exact
+                path="/courses/:id/update"
+                component={UpdateCourse}
+              />
+              <PrivateRoute
+                exact
+                path="/courses/create"
+                component={CreateCourse}
+              />
+              <Route exact path="/courses/:id" component={CourseDetail} />
+
+              <Route exact path="/signin" component={UserSignIn} />
+              <Route exact path="/signup" component={UserSignUp} />
+              <Route exact path="/signout" component={UserSignOut} />
+              <Route exact path="/forbidden" component={Forbidden} />
+              <Route exact path="/notfound" component={NotFound} />
+              <Route exact path="/error" component={UnhandledError} />
+              <Route render={() => <Redirect to="/notfound" />} />
+            </Switch>
+          </AuthProvider>
         </div>
-      </BrowserRouter>
+      </div>
     );
   }
 }
