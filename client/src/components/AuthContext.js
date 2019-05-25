@@ -15,8 +15,7 @@ class AuthProvider extends Component {
     emailAddress: null,
     password: null,
     confirmPassword: null,
-    errors: null,
-    prevPage: null
+    errors: null
   };
 
   componentDidMount() {
@@ -107,23 +106,9 @@ class AuthProvider extends Component {
       isAuth: false,
       name: null,
       emailAddress: null,
-      password: null,
-      prevPage: null
+      password: null
     });
     localStorage.clear();
-  };
-
-  // When user clicks on CreateCourse and isn't signed in, this saves the previous page as create so that after signing in, user is redirected back to create. Used in NewCourseButton.
-  setPrevPage = () => {
-    this.setState({
-      prevPage: '/courses/create'
-    });
-  };
-
-  clearPrevPage = () => {
-    this.setState({
-      prevPage: null
-    });
   };
 
   // Updates as user types in inputs.
@@ -135,7 +120,7 @@ class AuthProvider extends Component {
   };
 
   render() {
-    const { _id, isAuth, name, errors, prevPage } = this.state;
+    const { _id, isAuth, name, errors } = this.state;
 
     return (
       <AuthContext.Provider
@@ -148,10 +133,7 @@ class AuthProvider extends Component {
           signOut: this.signOut,
           name,
           handleChange: this.handleChange,
-          errors,
-          prevPage,
-          setPrevPage: this.setPrevPage,
-          clearPrevPage: this.clearPrevPage
+          errors
         }}
       >
         {this.props.children}

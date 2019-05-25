@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { Spring } from 'react-spring/renderprops';
 
 import { AuthConsumer } from './AuthContext';
@@ -7,14 +7,14 @@ import { AuthConsumer } from './AuthContext';
 // All handled in AuthContext. Will send user to the CreateCourse or UpdateCourse if they clicked on that before they were redirected to the SignIn page.
 class UserSignIn extends Component {
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+
     return (
       <AuthConsumer>
-        {({ isAuth, handleChange, signIn, prevPage }) => {
-          if (isAuth && prevPage) {
-            return this.props.history.push(prevPage);
-          } else if (isAuth && !prevPage) {
-            return this.props.history.goBack();
-          } else if (!isAuth) {
+        {({ isAuth, handleChange, signIn }) => {
+          if (isAuth) {
+            return <Redirect to={from} />;
+          } else {
             return (
               <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {props => (

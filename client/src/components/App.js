@@ -37,7 +37,6 @@ class App extends Component {
                 component={CreateCourse}
               />
               <Route exact path="/courses/:id" component={CourseDetail} />
-
               <Route exact path="/signin" component={UserSignIn} />
               <Route exact path="/signup" component={UserSignUp} />
               <Route exact path="/signout" component={UserSignOut} />

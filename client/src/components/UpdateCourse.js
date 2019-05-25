@@ -1,38 +1,55 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { Spring } from 'react-spring/renderprops';
 
 import ValidationErrors from './ValidationErrors';
 import { withAppContext } from './withAppContext';
+import { AuthConsumer } from './AuthContext';
 
 // Gets the course when rendered, and updates when button is clicked.
 class UpdateCourse extends Component {
+  _isMounted = false;
   state = {
     title: null,
     description: null,
     estimatedTime: null,
     materialsNeeded: null,
     name: null,
-    errors: null
+    errors: null,
+    ownsCourse: false
   };
 
   componentDidMount() {
+    this._isMounted = true;
     this.getCourse();
   }
 
   getCourse = () => {
     const { id } = this.props.match.params;
+
     axios
       .get(`http://localhost:5000/api/courses/${id}`)
       .then(response => {
-        this.setState({
-          title: response.data.title,
-          description: response.data.description,
-          estimatedTime: response.data.estimatedTime,
-          materialsNeeded: response.data.materialsNeeded,
-          name: `${response.data.user.firstName} ${response.data.user.lastName}`
-        });
+        // console.log(response.data.user._id);
+        // console.log(this.props.context.id);
+        // if (response.data.user._id === this.props.context.id) {
+        //   console.log('true');
+        //   this.setState({
+        //     ownsCourse: true
+        //   });
+        // }
+        if (this._isMounted) {
+          this.setState({
+            title: response.data.title,
+            description: response.data.description,
+            estimatedTime: response.data.estimatedTime,
+            materialsNeeded: response.data.materialsNeeded,
+            name: `${response.data.user.firstName} ${
+              response.data.user.lastName
+            }`
+          });
+        }
       })
       .catch(err => {
         if (err.response.status === 500) {
@@ -43,6 +60,10 @@ class UpdateCourse extends Component {
         }
       });
   };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   updateCourse = e => {
     const { id } = this.props.match.params;
@@ -93,9 +114,14 @@ class UpdateCourse extends Component {
       name,
       description,
       estimatedTime,
-      materialsNeeded
+      materialsNeeded,
+      ownsCourse
     } = this.state;
 
+    console.log(this.props.location.updateProps);
+    if (!this.props.location.updateProps) {
+      return <Redirect to="/forbidden" />;
+    }
     return (
       <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
         {props => (

@@ -7,10 +7,6 @@ import { AuthConsumer } from './AuthContext';
 import { withAppContext } from './withAppContext';
 
 class ActionsBar extends Component {
-  state = {
-    ownsCourse: false
-  };
-
   // Redirects to the courses page after deletion.
   deleteCourse = e => {
     const { emailAddress, password } = this.props.context.state;
@@ -42,6 +38,15 @@ class ActionsBar extends Component {
 
   // This prohibits the user from seeing the update and delete buttons if user doesn't own the course.
   // This is instead of the exceeds expectations instruction to redirect user to forbidden page.
+  // componentDidMount() {
+  //   console.log(this.props.userId);
+  //   if (this.props.userId === this.props.context.id) {
+  //     this.setState({
+  //       ownsCourse: true
+  //     });
+  //   }
+  // }
+
   ownsCourse = () => {
     if (this.props.userId === this.props.context.id) {
       return true;
@@ -52,7 +57,7 @@ class ActionsBar extends Component {
 
   // Only shows the UpdateCourse and DeleteCourse buttons if user isAuth and that user owns the course.
   render() {
-    const { course, id } = this.props;
+    const { id } = this.props;
     const ownsCourse = this.ownsCourse();
 
     return (
@@ -64,8 +69,13 @@ class ActionsBar extends Component {
                 {isAuth && ownsCourse ? (
                   <span>
                     <NavLink
-                      component={<UpdateCourse course={course} id={id} />}
-                      to={`${id}/update`}
+                      component={<UpdateCourse />}
+                      to={{
+                        pathname: `${id}/update`,
+                        updateProps: {
+                          ownsCourse: ownsCourse
+                        }
+                      }}
                       className="button"
                     >
                       Update Course
@@ -87,4 +97,6 @@ class ActionsBar extends Component {
   }
 }
 
-export default withAppContext(ActionsBar);
+const ActionsBarMemo = React.memo(ActionsBar);
+export default withAppContext(ActionsBarMemo);
+// export default withAppContext(ActionsBar);
