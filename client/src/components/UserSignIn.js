@@ -8,7 +8,6 @@ import { AuthConsumer } from './AuthContext';
 class UserSignIn extends Component {
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-
     return (
       <AuthConsumer>
         {({ isAuth, handleChange, signIn }) => {

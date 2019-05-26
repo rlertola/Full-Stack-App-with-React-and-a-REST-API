@@ -20,12 +20,37 @@ class UpdateCourse extends Component {
     ownsCourse: false
   };
 
+  // shouldComponentUpdate() {
+  //   const { id } = this.props.match.params;
+  //   axios.get(`http://localhost:5000/api/courses/${id}`).then(response => {
+  //     if (response.data.user._id === this.props.context.id) {
+  //       console.log('true');
+  //       this.setState({
+  //         ownsCourse: true
+  //       });
+  //     }
+  //   });
+  // }
+
+  // This seems to work the same as putting it in getCourse, or under render.
+  // componentWillMount() {
+  //   // console.log(this.props.context.ownsCourse);
+  //   if (!this.props.context.ownsCourse) {
+  //     console.log('going to forbidden...');
+  //     return this.props.history.push('/forbidden');
+  //   }
+  // }
+
   componentDidMount() {
     this._isMounted = true;
     this.getCourse();
   }
 
   getCourse = () => {
+    if (!this.props.context.ownsCourse) {
+      console.log('going to forbidden...');
+      return this.props.history.push('/forbidden');
+    }
     const { id } = this.props.match.params;
 
     axios
@@ -114,14 +139,18 @@ class UpdateCourse extends Component {
       name,
       description,
       estimatedTime,
-      materialsNeeded,
-      ownsCourse
+      materialsNeeded
+      // ownsCourse
     } = this.state;
 
-    console.log(this.props.location.updateProps);
-    if (!this.props.location.updateProps) {
-      return <Redirect to="/forbidden" />;
-    }
+    // const ownsCourse = localStorage.getItem('ownsCourse');
+    // console.log(ownsCourse); // This is null when url is typed, it goes to the update page even when doesn't ownsCourse.
+    // console.log(this.props.location.updateProps.ownsCourse); // this is undefined when url is typed so it errors.
+    //Both work fine with just normal button clicking.
+    // if (!this.props.context.ownsCourse) {
+    //   return <Redirect to="/forbidden" />;
+    // }
+
     return (
       <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
         {props => (
