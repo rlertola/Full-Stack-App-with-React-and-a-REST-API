@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Spring } from 'react-spring/renderprops';
 
 import ValidationErrors from './ValidationErrors';
 import { withAppContext } from './withAppContext';
-import { AuthConsumer } from './AuthContext';
 
 // Gets the course when rendered, and updates when button is clicked.
 class UpdateCourse extends Component {
@@ -17,7 +16,7 @@ class UpdateCourse extends Component {
     materialsNeeded: null,
     name: null,
     errors: null,
-    ownsCourse: false
+    ownsCourse: this.props.context.ownsCourse
   };
 
   // shouldComponentUpdate() {
@@ -35,6 +34,7 @@ class UpdateCourse extends Component {
   // This seems to work the same as putting it in getCourse, or under render.
   // componentWillMount() {
   //   // console.log(this.props.context.ownsCourse);
+
   //   if (!this.props.context.ownsCourse) {
   //     console.log('going to forbidden...');
   //     return this.props.history.push('/forbidden');
@@ -47,33 +47,25 @@ class UpdateCourse extends Component {
   }
 
   getCourse = () => {
-    if (!this.props.context.ownsCourse) {
-      console.log('going to forbidden...');
-      return this.props.history.push('/forbidden');
-    }
     const { id } = this.props.match.params;
 
     axios
       .get(`http://localhost:5000/api/courses/${id}`)
       .then(response => {
-        // console.log(response.data.user._id);
-        // console.log(this.props.context.id);
-        // if (response.data.user._id === this.props.context.id) {
-        //   console.log('true');
-        //   this.setState({
-        //     ownsCourse: true
-        //   });
-        // }
-        if (this._isMounted) {
-          this.setState({
-            title: response.data.title,
-            description: response.data.description,
-            estimatedTime: response.data.estimatedTime,
-            materialsNeeded: response.data.materialsNeeded,
-            name: `${response.data.user.firstName} ${
-              response.data.user.lastName
-            }`
-          });
+        if (response.data.user._id === this.props.context.state._id) {
+          if (this._isMounted) {
+            this.setState({
+              title: response.data.title,
+              description: response.data.description,
+              estimatedTime: response.data.estimatedTime,
+              materialsNeeded: response.data.materialsNeeded,
+              name: `${response.data.user.firstName} ${
+                response.data.user.lastName
+              }`
+            });
+          }
+        } else {
+          this.props.history.push('/forbidden');
         }
       })
       .catch(err => {
@@ -143,14 +135,10 @@ class UpdateCourse extends Component {
       // ownsCourse
     } = this.state;
 
-    // const ownsCourse = localStorage.getItem('ownsCourse');
-    // console.log(ownsCourse); // This is null when url is typed, it goes to the update page even when doesn't ownsCourse.
-    // console.log(this.props.location.updateProps.ownsCourse); // this is undefined when url is typed so it errors.
-    //Both work fine with just normal button clicking.
-    // if (!this.props.context.ownsCourse) {
+    // console.log(this.state.ownsCourse);
+    // if (!this.state.ownsCourse) {
     //   return <Redirect to="/forbidden" />;
-    // }
-
+    // } else {
     return (
       <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
         {props => (
@@ -239,6 +227,7 @@ class UpdateCourse extends Component {
         )}
       </Spring>
     );
+    // }
   }
 }
 

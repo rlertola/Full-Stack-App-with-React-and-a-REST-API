@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import UpdateCourse from './UpdateCourse';
 import { AuthConsumer } from './AuthContext';
@@ -10,11 +10,7 @@ class ActionsBar extends Component {
   // Redirects to the courses page after deletion.
   deleteCourse = e => {
     e.preventDefault();
-    const { ownsCourse } = this.props.context;
     const { emailAddress, password } = this.props.context.state;
-    if (!ownsCourse) {
-      return this.props.withRouter.history.push('/forbidden');
-    }
 
     axios
       .delete(
@@ -41,51 +37,44 @@ class ActionsBar extends Component {
       });
   };
 
-  // ownsCourse = () => {
-  //   if (this.props.userId === this.props.context.id) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
-
-  // redirect = e => {};
-
   // Only shows the UpdateCourse and DeleteCourse buttons if user isAuth and that user owns the course.
   render() {
     const { id } = this.props;
-    const { isAuth } = this.props.context;
-    const { ownsCourse } = this.props.context;
-    // const ownsCourse = this.ownsCourse();
 
     return (
-      <div className="actions--bar">
-        <div className="bounds">
-          <div className="grid-100">
-            <span>
-              <NavLink
-                component={<UpdateCourse />}
-                to={{
-                  pathname: `${id}/update`,
-                  updateProps: {
-                    ownsCourse: ownsCourse
-                  }
-                }}
-                className="button"
-              >
-                Update Course
-              </NavLink>
-              <button className="button" onClick={this.deleteCourse}>
-                Delete Course
-              </button>
-            </span>
-
-            <NavLink className="button button-secondary" to="/">
-              Return to List
-            </NavLink>
+      <AuthConsumer>
+        {({ isAuth, ownsCourse }) => (
+          <div className="actions--bar">
+            <div className="bounds">
+              <div className="grid-100">
+                {isAuth && ownsCourse ? (
+                  <span>
+                    <NavLink
+                      // component={<UpdateCourse />}
+                      to={`${id}/update`}
+                      // to={{
+                      //   pathname: `${id}/update`,
+                      //   updateProps: {
+                      //     ownsCourse: ownsCourse
+                      //   }
+                      // }}
+                      className="button"
+                    >
+                      Update Course
+                    </NavLink>
+                    <button className="button" onClick={this.deleteCourse}>
+                      Delete Course
+                    </button>
+                  </span>
+                ) : null}
+                <NavLink className="button button-secondary" to="/">
+                  Return to List
+                </NavLink>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </AuthConsumer>
     );
   }
 }

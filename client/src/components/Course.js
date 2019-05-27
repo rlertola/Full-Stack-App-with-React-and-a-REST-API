@@ -16,7 +16,7 @@ class Course extends Component {
             <NavLink
               to={`courses/${id}`}
               className="course--module course--link"
-              component={<CourseDetail />}
+              // component={<CourseDetail />}
               onClick={isCourseOwner(courseUserId)}
             >
               <h4 className="course--label">Course</h4>

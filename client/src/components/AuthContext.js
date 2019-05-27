@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { withRouter } from 'react-router-dom';
 
 const AuthContext = React.createContext();
 
@@ -26,7 +25,6 @@ class AuthProvider extends Component {
 
   // Sets state to user creds in localStorage.
   updateState = () => {
-    console.log('updating state...');
     return Object.keys(this.state).map(key => {
       return this.setState({
         [key]: localStorage.getItem(key)
@@ -59,7 +57,6 @@ class AuthProvider extends Component {
           emailAddress,
           password,
           name: response.data.name
-          // ownsCourse: null
         });
         this.updateStorage();
       })
@@ -120,12 +117,12 @@ class AuthProvider extends Component {
       this.setState({
         ownsCourse: true
       });
-      localStorage.setItem('ownsCourse', true);
+      // localStorage.setItem('ownsCourse', true);
     } else {
       this.setState({
         ownsCourse: false
       });
-      localStorage.setItem('ownsCourse', false);
+      // localStorage.setItem('ownsCourse', false);
     }
   };
 
@@ -139,7 +136,7 @@ class AuthProvider extends Component {
 
   render() {
     const { _id, isAuth, name, errors, ownsCourse } = this.state;
-    console.log(ownsCourse);
+
     return (
       <AuthContext.Provider
         value={{

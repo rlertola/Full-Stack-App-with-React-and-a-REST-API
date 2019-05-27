@@ -4,7 +4,6 @@ import { Spring } from 'react-spring/renderprops';
 
 import NewCourseButton from './NewCourseButton';
 import Course from './Course';
-import { AuthConsumer } from './AuthContext';
 
 class Courses extends Component {
   state = {
