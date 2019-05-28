@@ -6,6 +6,7 @@ import { Spring } from 'react-spring/renderprops';
 import ValidationErrors from './ValidationErrors';
 import { withAppContext } from './withAppContext';
 
+// Uses withAppContext to get access to this.props.context.
 class CreateCourse extends Component {
   state = {
     title: null,
@@ -17,25 +18,30 @@ class CreateCourse extends Component {
 
   createCourse = e => {
     e.preventDefault();
+    const { id } = this.props.context;
+    const { emailAddress, password } = this.props.context.state;
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    const { history } = this.props;
+
     axios
       .post(
         `http://localhost:5000/api/courses`,
         {
-          user: this.props.context.id,
-          title: this.state.title,
-          description: this.state.description,
-          estimatedTime: this.state.estimatedTime,
-          materialsNeeded: this.state.materialsNeeded
+          user: id,
+          title: title,
+          description: description,
+          estimatedTime: estimatedTime,
+          materialsNeeded: materialsNeeded
         },
         {
           auth: {
-            username: this.props.context.state.emailAddress,
-            password: this.props.context.state.password
+            username: emailAddress,
+            password: password
           }
         }
       )
       .then(() => {
-        this.props.history.push('/');
+        history.push('/');
       })
       .catch(err => {
         if (err.response.status === 400) {
@@ -47,7 +53,7 @@ class CreateCourse extends Component {
             errors: messages
           });
         } else if (err.response.status === 500) {
-          this.props.history.push('/error');
+          history.push('/error');
         } else {
           console.log('Error creating course', err);
         }

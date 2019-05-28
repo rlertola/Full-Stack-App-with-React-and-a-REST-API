@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import CourseDetail from './CourseDetail';
 import { AuthConsumer } from './AuthContext';
 
 // Individual course buttons on the courses route. Reroutes to the CourseDetail page when clicked.
+// Also calls isCourseOwner in the Provider for use in ActionsBar to display the update and delete buttons.
 class Course extends Component {
   render() {
     const { id, title, courseUserId } = this.props;
@@ -16,7 +16,6 @@ class Course extends Component {
             <NavLink
               to={`courses/${id}`}
               className="course--module course--link"
-              // component={<CourseDetail />}
               onClick={isCourseOwner(courseUserId)}
             >
               <h4 className="course--label">Course</h4>
@@ -29,5 +28,4 @@ class Course extends Component {
   }
 }
 
-// React.memo stops component from constantly rerendering.
 export default React.memo(Course);

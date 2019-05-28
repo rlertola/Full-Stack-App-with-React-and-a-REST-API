@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const AuthContext = React.createContext();
 
-// Handles SignIn/Out/Up.
+// Handles SignIn/Out/Up. User automatically signed in after signing up.
 // Uses localStorage to persist user credentials.
 class AuthProvider extends Component {
   state = {
@@ -40,9 +40,9 @@ class AuthProvider extends Component {
   };
 
   signIn = e => {
+    if (e) e.preventDefault();
     const { emailAddress, password } = this.state;
 
-    if (e) e.preventDefault();
     axios
       .get(`http://localhost:5000/api/users`, {
         auth: {
@@ -66,6 +66,7 @@ class AuthProvider extends Component {
   };
 
   signUp = e => {
+    e.preventDefault();
     const {
       firstName,
       lastName,
@@ -74,7 +75,6 @@ class AuthProvider extends Component {
       confirmPassword
     } = this.state;
 
-    e.preventDefault();
     axios
       .post(`http://localhost:5000/api/users`, {
         firstName,
@@ -112,17 +112,16 @@ class AuthProvider extends Component {
     localStorage.clear();
   };
 
+  // Checks if current user owns the course they clicked. Called in ActionsBar to determine whether to show the update and delete buttons.
   isCourseOwner = courseId => e => {
     if (this.state._id === courseId) {
       this.setState({
         ownsCourse: true
       });
-      // localStorage.setItem('ownsCourse', true);
     } else {
       this.setState({
         ownsCourse: false
       });
-      // localStorage.setItem('ownsCourse', false);
     }
   };
 

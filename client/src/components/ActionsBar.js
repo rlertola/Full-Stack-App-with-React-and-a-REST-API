@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 
-import UpdateCourse from './UpdateCourse';
 import { AuthConsumer } from './AuthContext';
 import { withAppContext } from './withAppContext';
 
+// Only shows the UpdateCourse and DeleteCourse buttons if user isAuth and that user owns the course. Always shows the Return to List button.
 class ActionsBar extends Component {
-  // Redirects to the courses page after deletion.
+  // Only auth'd users can delete. Redirects to the courses page after deletion.
   deleteCourse = e => {
     e.preventDefault();
     const { emailAddress, password } = this.props.context.state;
+    const { id } = this.props.context;
+    const { history } = this.props.withRouter;
 
     axios
       .delete(
@@ -22,22 +24,21 @@ class ActionsBar extends Component {
           }
         },
         {
-          user: this.props.context.id
+          user: id
         }
       )
       .then(() => {
-        this.props.withRouter.history.push('/');
+        history.push('/');
       })
       .catch(err => {
         if (err.response.status === 500) {
-          this.props.withRouter.history.push('/error');
+          history.push('/error');
         } else {
           console.log('Error deleting data', err);
         }
       });
   };
 
-  // Only shows the UpdateCourse and DeleteCourse buttons if user isAuth and that user owns the course.
   render() {
     const { id } = this.props;
 
@@ -49,17 +50,7 @@ class ActionsBar extends Component {
               <div className="grid-100">
                 {isAuth && ownsCourse ? (
                   <span>
-                    <NavLink
-                      // component={<UpdateCourse />}
-                      to={`${id}/update`}
-                      // to={{
-                      //   pathname: `${id}/update`,
-                      //   updateProps: {
-                      //     ownsCourse: ownsCourse
-                      //   }
-                      // }}
-                      className="button"
-                    >
+                    <NavLink to={`${id}/update`} className="button">
                       Update Course
                     </NavLink>
                     <button className="button" onClick={this.deleteCourse}>
@@ -79,5 +70,6 @@ class ActionsBar extends Component {
   }
 }
 
+// React.memo stops component from unnecessarily rerendering.
 const ActionsBarMemo = React.memo(ActionsBar);
 export default withAppContext(ActionsBarMemo);

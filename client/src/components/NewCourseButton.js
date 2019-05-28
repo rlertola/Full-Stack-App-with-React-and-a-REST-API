@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-// When this is clicked the previous page is set as this so that when a user isn't signed in, they are redirected to the SignIn page and then brought back here when logged in.
+// Users not signed in are redirected to the SignIn page and then directed to CreateCourse when logged in.
 class NewCourseButton extends Component {
   render() {
     return (

@@ -1,8 +1,8 @@
 # TREEHOUSE TECHDEGREE PROJECT 10 - Full Stack App with React and a REST API
 
-This project was built using React, Express, Mongo DB and Mongoose; routing with React-Router, and simple animation with React Spring.
+This combines the project 9 school database REST API with a React frontend. Users can create an account, signin/signout, create, update and delete courses, view course detail, and a full list of courses.
 
-This combines with project 9 and connects the api with a React frontend.
+This project was built using React, Express, Mongo DB and Mongoose; routing with React-Router, and simple animation with React Spring.
 
 #### Getting Started
 
@@ -38,7 +38,7 @@ then:
 npm start
 ```
 
-To reset the database, cd to /api and type:
+To load sample info from the database, cd to /api and type:
 
 ```
 npm run seed
@@ -54,19 +54,17 @@ This is the home page. It renders the Courses component which displays each Cour
 Header is displayed throughout the application. It contains links to the SignIn and SignUp pages. When a user is logged in, it will display user's name and a signout option.
 
 **SignIn, SignUp, SignOut & AuthContext**
-Handles signing in and out, and global state is handled in the AuthContext component. The user's credentials are persisted on page refresh. The global signOut method in AuthContext signs the user out and clears the user's credentials from localStorage.
+Global state is handled in the AuthContext component. The user's credentials are persisted on page refresh. The global signOut method in AuthContext signs the user out and clears the user's credentials from localStorage. After signing up, user is automatically signed in and taken to the main course list.
 
 **CreateCourse & UpdateCourse**
 These routes are wrapped in a ProtectedRoute component. When user tries to click on NewCourseButton and aren't signed in, they are redirected to SignIn, and redirected back after login.
-
-A unauthenticated user OR if they aren't the registered owner of that particular course cannot access the update or delete buttons on the CourseDetail page.
 
 **Errors**
 Errors are displayed via the ValidationErrors component in SignUp, CreateCourse and UpdateCourse if the user leaves any of the required inputs empty.
 
 If a bad url or bad course id is entered, the NotFound component is rendered. If there is a 500 error, the UnhandledError component will render.
 
-In place of the forbidden route, if the user isn't signed in or doesn't own the course, they update and delete buttons will not be shown. If an unauthorized user tries to manully enter or paste in a link to update, they will be taken to the signup page.
+An unauthenticated or unregistered owner of that particular course cannot access the update or delete buttons on the CourseDetail page. If the /update or /create urls are entered manually, the user must be signed in to create, and must be signed in and own the course to update, or they will be redirected to the /forbidden route.
 
 **Markdown Support**
 User may use markdown to enter text in the course fields and it will display correctly.

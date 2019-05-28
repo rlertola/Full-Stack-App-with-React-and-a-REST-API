@@ -7,7 +7,6 @@ import ActionsBar from './ActionsBar';
 
 class CourseDetail extends Component {
   state = {
-    userId: '',
     course: {},
     id: this.props.match.params.id,
     title: '',
@@ -22,11 +21,13 @@ class CourseDetail extends Component {
   }
 
   getCourse = () => {
+    const { id } = this.state;
+    const { history } = this.props;
+
     axios
-      .get(`http://localhost:5000/api/courses/${this.state.id}`)
+      .get(`http://localhost:5000/api/courses/${id}`)
       .then(response => {
         this.setState({
-          userId: response.data.user._id,
           course: response.data,
           title: response.data.title,
           description: response.data.description,
@@ -37,9 +38,9 @@ class CourseDetail extends Component {
       })
       .catch(err => {
         if (err.response.status === 500) {
-          this.props.history.push('/error');
+          history.push('/error');
         } else {
-          this.props.history.push('/notfound');
+          history.push('/notfound');
           console.log('Error fetching course', err);
         }
       });
@@ -49,7 +50,6 @@ class CourseDetail extends Component {
     const {
       id,
       course,
-      userId,
       title,
       name,
       description,
@@ -61,12 +61,7 @@ class CourseDetail extends Component {
       <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
         {props => (
           <div style={props}>
-            <ActionsBar
-              id={id}
-              course={course}
-              withRouter={this.props}
-              userId={userId}
-            />
+            <ActionsBar id={id} course={course} withRouter={this.props} />
             <div className="bounds course--detail">
               <div className="grid-66">
                 <div className="course--header">

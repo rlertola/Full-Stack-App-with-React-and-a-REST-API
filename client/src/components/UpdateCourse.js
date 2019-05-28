@@ -6,7 +6,7 @@ import { Spring } from 'react-spring/renderprops';
 import ValidationErrors from './ValidationErrors';
 import { withAppContext } from './withAppContext';
 
-// Gets the course when rendered, and updates when button is clicked.
+// Gets the course when rendered, and updates when button is clicked. Redirects to forbidden if user not signed in.
 class UpdateCourse extends Component {
   _isMounted = false;
   state = {
@@ -15,44 +15,28 @@ class UpdateCourse extends Component {
     estimatedTime: null,
     materialsNeeded: null,
     name: null,
-    errors: null,
-    ownsCourse: this.props.context.ownsCourse
+    errors: null
   };
-
-  // shouldComponentUpdate() {
-  //   const { id } = this.props.match.params;
-  //   axios.get(`http://localhost:5000/api/courses/${id}`).then(response => {
-  //     if (response.data.user._id === this.props.context.id) {
-  //       console.log('true');
-  //       this.setState({
-  //         ownsCourse: true
-  //       });
-  //     }
-  //   });
-  // }
-
-  // This seems to work the same as putting it in getCourse, or under render.
-  // componentWillMount() {
-  //   // console.log(this.props.context.ownsCourse);
-
-  //   if (!this.props.context.ownsCourse) {
-  //     console.log('going to forbidden...');
-  //     return this.props.history.push('/forbidden');
-  //   }
-  // }
 
   componentDidMount() {
     this._isMounted = true;
     this.getCourse();
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  // Checks if the book's user id matches the currently auth'd user. Redirects to forbidden of not.
   getCourse = () => {
     const { id } = this.props.match.params;
+    const { _id } = this.props.context.state;
+    const { history } = this.props;
 
     axios
       .get(`http://localhost:5000/api/courses/${id}`)
       .then(response => {
-        if (response.data.user._id === this.props.context.state._id) {
+        if (response.data.user._id === _id) {
           if (this._isMounted) {
             this.setState({
               title: response.data.title,
@@ -65,40 +49,39 @@ class UpdateCourse extends Component {
             });
           }
         } else {
-          this.props.history.push('/forbidden');
+          history.push('/forbidden');
         }
       })
       .catch(err => {
         if (err.response.status === 500) {
-          this.props.history.push('/error');
+          history.push('/error');
         } else {
-          this.props.history.push('/notfound');
+          history.push('/notfound');
           console.log('Error fetching course', err);
         }
       });
   };
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   updateCourse = e => {
-    const { id } = this.props.match.params;
     e.preventDefault();
+    const { id } = this.props.match.params;
+    const { _id, emailAddress, password } = this.props.context.state;
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
+
     axios
       .put(
         `http://localhost:5000/api/courses/${id}`,
         {
-          user: this.props.context.state._id,
-          title: this.state.title,
-          description: this.state.description,
-          estimatedTime: this.state.estimatedTime,
-          materialsNeeded: this.state.materialsNeeded
+          user: _id,
+          title: title,
+          description: description,
+          estimatedTime: estimatedTime,
+          materialsNeeded: materialsNeeded
         },
         {
           auth: {
-            username: this.props.context.state.emailAddress,
-            password: this.props.context.state.password
+            username: emailAddress,
+            password: password
           }
         }
       )
@@ -132,13 +115,8 @@ class UpdateCourse extends Component {
       description,
       estimatedTime,
       materialsNeeded
-      // ownsCourse
     } = this.state;
 
-    // console.log(this.state.ownsCourse);
-    // if (!this.state.ownsCourse) {
-    //   return <Redirect to="/forbidden" />;
-    // } else {
     return (
       <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
         {props => (
@@ -227,7 +205,6 @@ class UpdateCourse extends Component {
         )}
       </Spring>
     );
-    // }
   }
 }
 
