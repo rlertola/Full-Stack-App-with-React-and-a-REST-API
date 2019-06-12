@@ -4,6 +4,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const path = require('path');
 
 const morgan = require('morgan');
 const jsonParser = require('body-parser').json;
@@ -67,6 +68,14 @@ app.use((req, res) => {
     message: 'Route Not Found'
   });
 });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendfile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 // Set port.
 app.set('port', process.env.PORT || 5000);
